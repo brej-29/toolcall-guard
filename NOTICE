@@ -1,0 +1,16 @@
+Toolcall Guard
+Copyright 2026 brej-29
+
+This product's code is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party components and outputs:
+
+- Base model: google/gemma-4-E4B-it (Gemma 4), licensed under the Apache License, Version 2.0, as stated on its model
+  page (https://huggingface.co/google/gemma-4-E4B-it) and license page (https://ai.google.dev/gemma/docs/gemma_4_license).
+  The separate Gemma Terms of Use (https://ai.google.dev/gemma/terms) cover Gemma 1 to 3n and point Gemma 4 users to
+  the Gemma 4 license. The LoRA adapter published as BrejBala/gemma-toolcall-guard is a modification of that base model
+  and is released under the Apache License, Version 2.0.
+- Training and evaluation data: synthetic records generated with Gemini models (gemini-3.8-flash, gemini-3.1-pro-preview)
+  through Google Cloud Vertex AI. Use of the Gemini services was subject to Google's terms for Google Cloud and its
+  generative AI services. The released dataset (BrejBala/toolcall-guard-data) is offered under CC BY 4.0.
+- Project A (agent-govbench) records are used for evaluation only and are not redistributed here.

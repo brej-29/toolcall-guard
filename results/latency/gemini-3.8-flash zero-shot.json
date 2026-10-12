@@ -1,0 +1,1 @@
+{"guard": "gemini-3.8-flash zero-shot", "tier": "standard", "n": 30, "median_ms": 4986, "p90_ms": 13573}

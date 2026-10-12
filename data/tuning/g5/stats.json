@@ -1,0 +1,15 @@
+{
+ "train": {
+  "examples": 2183,
+  "gemma_tokens": 2579627,
+  "max_tokens": 1429
+ },
+ "val": {
+  "examples": 109,
+  "gemma_tokens": 127771,
+  "max_tokens": 1349
+ },
+ "sha256": "8d2a489edf7c788e2faf8a539acdf1fc67aa3bbdf227c6cc2e5b125dcc3c0595",
+ "frozen_at": "2026-10-07T17:35:10+00:00",
+ "source": "Project A scenarios a_generated_v1_train/_val (uploaded 2026-10-06 05:02 UTC), labels as provided by A"
+}

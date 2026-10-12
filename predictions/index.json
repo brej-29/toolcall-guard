@@ -1,0 +1,164 @@
+{
+ "files": [
+  {
+   "set": "a_gold",
+   "guard": "gemini-3.1-pro zero-shot",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemini-3.8-flash zero-shot",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemma-4-e4b G5 in-domain (A data), 4-bit laptop",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemma-4-e4b G5 in-domain (A data)",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemma-4-e4b tuned (ours), 4-bit laptop",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemma-4-e4b tuned (ours), merged int8",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemma-4-e4b tuned (ours)",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemma-4-e4b untuned few-shot",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "gemma-4-e4b untuned zero-shot",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_gold",
+   "guard": "keyword",
+   "rows": 120,
+   "records_in_set": 120
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemini-3.1-pro zero-shot",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemini-3.8-flash zero-shot",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemma-4-e4b G5 in-domain (A data), 4-bit laptop",
+   "rows": 1403,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemma-4-e4b G5 in-domain (A data)",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemma-4-e4b tuned (ours), 4-bit laptop",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemma-4-e4b tuned (ours), merged int8",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemma-4-e4b tuned (ours)",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemma-4-e4b untuned few-shot",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "gemma-4-e4b untuned zero-shot",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_replay",
+   "guard": "keyword",
+   "rows": 1863,
+   "records_in_set": 1863
+  },
+  {
+   "set": "a_pro_agent",
+   "guard": "gemma-4-e4b tuned (ours), merged int8",
+   "rows": 20,
+   "records_in_set": 20
+  },
+  {
+   "set": "a_pro_agent",
+   "guard": "gemma-4-e4b untuned zero-shot, int8",
+   "rows": 20,
+   "records_in_set": 20
+  },
+  {
+   "set": "a_adaptive",
+   "guard": "gemma-4-e4b tuned (ours)",
+   "rows": 87,
+   "records_in_set": 87
+  },
+  {
+   "set": "a_adaptive",
+   "guard": "gemma-4-e4b untuned zero-shot",
+   "rows": 87,
+   "records_in_set": 87
+  },
+  {
+   "set": "a_adaptive",
+   "guard": "gemma-4-e4b tuned (ours), 4-bit laptop",
+   "rows": 87,
+   "records_in_set": 87
+  },
+  {
+   "set": "a_adaptive",
+   "guard": "gemma-4-e4b untuned zero-shot, 4-bit laptop",
+   "rows": 87,
+   "records_in_set": 87
+  }
+ ],
+ "a_release_replacements": {
+  "northwind-example.com": 5,
+  "northwind.example.co": 10
+ }
+}

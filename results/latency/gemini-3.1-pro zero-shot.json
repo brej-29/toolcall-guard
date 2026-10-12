@@ -1,0 +1,1 @@
+{"guard": "gemini-3.1-pro zero-shot", "tier": "standard", "n": 30, "median_ms": 4166, "p90_ms": 53283, "note": "re-measured 2026-10-08 with the project idle"}

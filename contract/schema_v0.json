@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gs://govbench-brejesh-01-data/contract/schema_v0.json",
+  "title": "Toolcall Guard decision record v0",
+  "description": "One decision point: an agent is about to execute proposed_call, given its role and policy, session facts, tools and the conversation so far. One JSON object per line in .jsonl files. Immutable once published: changes go into schema_v1.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "family_id", "split", "source", "agent", "tools", "conversation", "proposed_call", "label", "label_source"],
+  "properties": {
+    "schema_version": {"const": "v0"},
+    "id": {"type": "string", "minLength": 1, "description": "Globally unique. Prefix with the source, e.g. a-gold-0007, b-syn-000123."},
+    "family_id": {"type": "string", "minLength": 1, "description": "Shared by all records from the same template, seed, source attack or trajectory, and by a record and its hard-negative twin. Split is a function of family_id only."},
+    "split": {"enum": ["train", "val", "test"], "description": "Computed by contract/split_v0.py assign_splits(), never chosen per record."},
+    "source": {"enum": ["a_gold", "a_generated", "a_replay", "b_synthetic", "b_ood"], "description": "a_gold: A's gold slice (always test). a_generated: A's generated scenario rendered as a decision point. a_replay: a call captured from A's agent runs. b_synthetic: B's synthetic data. b_ood: B's hand-written out-of-distribution set."},
+    "derived_from": {"type": ["string", "null"], "description": "id of the record this one was synthesized from. Anything derived from a gold record is test."},
+    "trajectory_id": {"type": ["string", "null"], "description": "Agent run this decision point was captured from, if any."},
+    "step": {"type": ["integer", "null"], "minimum": 0, "description": "Index of this tool call within the trajectory."},
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "policy"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1, "description": "Short role name, e.g. customer_support_agent."},
+        "policy": {"type": "string", "minLength": 1, "description": "The agent's system prompt or business rules in plain language. Trusted."},
+        "allowed_tools": {"type": ["array", "null"], "items": {"type": "string"}, "description": "Explicit tool allowlist for this role, if the deployment has one. Trusted."},
+        "session_context": {"type": ["string", "null"], "description": "Facts established by the platform, e.g. authenticated user, tenant, date. Trusted."}
+      }
+    },
+    "tools": {
+      "type": "array",
+      "description": "Tools the agent can technically call in this session, permitted or not.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "description": {"type": "string"},
+          "parameters": {"type": "object", "description": "JSON Schema of the arguments."}
+        }
+      }
+    },
+    "conversation": {"type": "array", "items": {"$ref": "#/$defs/message"}, "description": "Everything before the proposed call, oldest first."},
+    "proposed_call": {"$ref": "#/$defs/call"},
+    "label": {"oneOf": [{"$ref": "#/$defs/label"}, {"type": "null"}], "description": "Ground truth for the proposed call at this decision point, not for the scenario as a whole."},
+    "label_source": {"enum": ["human", "teacher", "synthetic", "none"], "description": "human: verified by a person. teacher: Gemini teacher label. synthetic: generation intent. none: unlabeled, label is null."},
+    "attack_notes": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "scenario_is_attack": {"type": "boolean", "description": "Whether the scenario contained an attack attempt, even if this call did not act on it."},
+        "technique": {"type": "string", "description": "e.g. fake system notice in email, authority impersonation, amount splitting."},
+        "vector": {"enum": ["user", "tool_output", "none", "other"]},
+        "surface": {"type": "string", "description": "e.g. chat, email, pdf_text, web_page, api_response, file, ticket, calendar."},
+        "attacker_goal": {"type": "string"},
+        "intended_category": {"$ref": "#/$defs/category", "description": "Category the generator intended. Compared with the label to find disputed records."},
+        "notes": {"type": "string"}
+      }
+    },
+    "provenance": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "run_id": {"type": "string"},
+        "agent_model": {"type": "string"},
+        "captured_from": {"type": "string", "description": "Guard configuration of the run the call was captured from, e.g. unguarded."},
+        "executed": {"type": ["boolean", "null"], "description": "Whether the call actually ran in the live run."},
+        "attack_succeeded": {"type": ["boolean", "null"]},
+        "generator": {"type": "string", "description": "Model or person that wrote the scenario."},
+        "seed": {"type": "object"},
+        "created_at": {"type": "string"}
+      }
+    },
+    "guard_results": {"type": "array", "items": {"$ref": "#/$defs/guard_result"}, "description": "One entry per guard configuration evaluated on this record."},
+    "meta": {"type": "object", "description": "Free-form extras. Anything not covered above goes here."}
+  },
+  "allOf": [
+    {"if": {"properties": {"label_source": {"const": "none"}}}, "then": {"properties": {"label": {"type": "null"}}}, "else": {"properties": {"label": {"$ref": "#/$defs/label"}}}},
+    {"if": {"properties": {"source": {"const": "a_gold"}}}, "then": {"properties": {"split": {"const": "test"}, "label_source": {"const": "human"}}}}
+  ],
+  "$defs": {
+    "category": {"enum": ["benign", "indirect_prompt_injection", "social_engineering", "privilege_escalation", "data_exfiltration", "destructive_action", "sensitive_data_exposure", "business_rule_violation"]},
+    "call": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "arguments"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "arguments": {"type": "object"}}
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "content"],
+      "properties": {
+        "role": {"enum": ["user", "assistant", "tool"]},
+        "content": {"type": "string"},
+        "name": {"type": "string", "description": "For role tool: the tool that produced this output."},
+        "tool_calls": {"type": "array", "items": {"$ref": "#/$defs/call"}, "description": "For role assistant: calls the agent already made."}
+      },
+      "if": {"properties": {"role": {"const": "tool"}}},
+      "then": {"required": ["name"]}
+    },
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verdict", "category"],
+      "properties": {
+        "verdict": {"enum": ["allow", "block"]},
+        "category": {"$ref": "#/$defs/category"},
+        "reason": {"type": "string"}
+      },
+      "if": {"properties": {"verdict": {"const": "allow"}}},
+      "then": {"properties": {"category": {"const": "benign"}}},
+      "else": {"properties": {"category": {"not": {"const": "benign"}}}}
+    },
+    "guard_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["config", "verdict"],
+      "properties": {
+        "config": {"type": "string", "minLength": 1, "description": "e.g. unguarded, model_armor, iam_tool_policy, semantic_governance, tcg_gemma4_e4b_lora_v1."},
+        "verdict": {"enum": ["allow", "block", "error", "not_evaluated"]},
+        "category": {"oneOf": [{"$ref": "#/$defs/category"}, {"type": "null"}]},
+        "reason": {"type": ["string", "null"]},
+        "stage": {"enum": ["prompt", "tool_call", "tool_output", "response", "replay"], "description": "Where in the trajectory the guard acted. replay: evaluated offline on the saved record."},
+        "latency_ms": {"type": ["number", "null"], "minimum": 0},
+        "cost_usd": {"type": ["number", "null"], "minimum": 0},
+        "input_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "output_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "hardware": {"type": ["string", "null"], "description": "e.g. managed, cpu-i5-13450hx, rtx3050-6gb, kaggle-t4."},
+        "json_valid": {"type": ["boolean", "null"], "description": "Whether the guard's raw output parsed as the expected JSON."},
+        "evaluated_at": {"type": "string"},
+        "raw": {"description": "Raw guard response, any type."}
+      }
+    }
+  }
+}

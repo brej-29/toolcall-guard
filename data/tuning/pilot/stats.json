@@ -1,0 +1,12 @@
+{
+ "train": {
+  "examples": 50,
+  "gemma_tokens": 64723,
+  "max_tokens": 1954
+ },
+ "val": {
+  "examples": 2,
+  "gemma_tokens": 2001,
+  "max_tokens": 1022
+ }
+}

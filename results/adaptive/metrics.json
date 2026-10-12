@@ -1,0 +1,3264 @@
+{
+ "all": {
+  "model_armor_direct": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.5402298850574713,
+     0.40476190476190477,
+     0.6703296703296703
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.5402298850574713,
+     0.40476190476190477,
+     0.6703296703296703
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "handwritten_rules_g2prime": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.632183908045977,
+     0.5176470588235295,
+     0.7472527472527473
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.632183908045977,
+     0.5176470588235295,
+     0.7472527472527473
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "llm_guard_flash": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "g4_rules_plus_llm_guard": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "b_prompt_gemini_3_1_pro": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     null,
+     null,
+     null
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "tcg_tuned_4bit_laptop": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.41379310344827586,
+     0.3058823529411765,
+     0.5119047619047619
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.41379310344827586,
+     0.3058823529411765,
+     0.5119047619047619
+    ],
+    "category_accuracy": [
+     0.1839080459770115,
+     0.10714285714285714,
+     0.27058823529411763
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     0.3333333333333333,
+     0.3333333333333333,
+     0.3333333333333333
+    ],
+    "recall/indirect_prompt_injection": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.25,
+     0.0,
+     0.47058823529411764
+    ],
+    "recall/privilege_escalation": [
+     0.26666666666666666,
+     0.0,
+     0.5454545454545454
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "recall/data_exfiltration": [
+     0.25,
+     0.0,
+     0.5
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "recall/sensitive_data_exposure": [
+     0.6666666666666666,
+     0.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall/business_rule_violation": [
+     0.12903225806451613,
+     0.038461538461538464,
+     0.23333333333333334
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.2985663082437276,
+     0.1368899917287014,
+     0.42388888888888887
+    ],
+    "median_latency_ms": [
+     9474.8,
+     9216.8,
+     9909.0
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  },
+  "tcg_untuned_zs_4bit_laptop": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.4827586206896552,
+     0.3875,
+     0.5853658536585366
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.4827586206896552,
+     0.3875,
+     0.5853658536585366
+    ],
+    "category_accuracy": [
+     0.22988505747126436,
+     0.14444444444444443,
+     0.3368421052631579
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "recall/privilege_escalation": [
+     0.06666666666666667,
+     0.0,
+     0.21052631578947367
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.1875,
+     0.0,
+     0.3125
+    ],
+    "recall/sensitive_data_exposure": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     0.8,
+     0.6470588235294118,
+     0.9444444444444444
+    ],
+    "recall/business_rule_violation": [
+     0.25806451612903225,
+     0.14925373134328357,
+     0.4
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.1372800724911274,
+     0.09564509564509564,
+     0.2292063492063492
+    ],
+    "median_latency_ms": [
+     5854.3,
+     5516.8,
+     6081.2
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  },
+  "tcg_tuned_fp16_kaggle": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.735632183908046,
+     0.627906976744186,
+     0.8314606741573034
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.735632183908046,
+     0.627906976744186,
+     0.8314606741573034
+    ],
+    "category_accuracy": [
+     0.3333333333333333,
+     0.2441860465116279,
+     0.43529411764705883
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     0.14285714285714285,
+     0.0,
+     0.2857142857142857
+    ],
+    "recall/indirect_prompt_injection": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.4666666666666667,
+     0.2,
+     0.6923076923076923
+    ],
+    "recall/privilege_escalation": [
+     0.4666666666666667,
+     0.16666666666666666,
+     0.75
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     0.6666666666666666,
+     0.6666666666666666,
+     0.6666666666666666
+    ],
+    "recall/data_exfiltration": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.3333333333333333,
+     0.0,
+     0.5
+    ],
+    "recall/sensitive_data_exposure": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall/business_rule_violation": [
+     0.25806451612903225,
+     0.14925373134328357,
+     0.373134328358209
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.36176231176231183,
+     0.22856544765652803,
+     0.519300101343445
+    ],
+    "median_latency_ms": [
+     7512.3,
+     7246.25,
+     7654.4
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  },
+  "tcg_untuned_zs_fp16_kaggle": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.632183908045977,
+     0.5393258426966292,
+     0.7311827956989247
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.632183908045977,
+     0.5393258426966292,
+     0.7311827956989247
+    ],
+    "category_accuracy": [
+     0.26436781609195403,
+     0.1724137931034483,
+     0.36666666666666664
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall/data_exfiltration": [
+     0.25,
+     0.0,
+     0.5
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.13043478260869565,
+     0.0,
+     0.23529411764705882
+    ],
+    "recall/sensitive_data_exposure": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     0.8260869565217391,
+     0.6666666666666666,
+     0.9565217391304348
+    ],
+    "recall/business_rule_violation": [
+     0.3064516129032258,
+     0.2,
+     0.42857142857142855
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.17963800904977376,
+     0.08930141670737664,
+     0.2983436853002071
+    ],
+    "median_latency_ms": [
+     5464.8,
+     5359.6,
+     5860.450000000001
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  }
+ },
+ "test": {
+  "model_armor_direct": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.5402298850574713,
+     0.40476190476190477,
+     0.6703296703296703
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.5402298850574713,
+     0.40476190476190477,
+     0.6703296703296703
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "handwritten_rules_g2prime": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.632183908045977,
+     0.5176470588235295,
+     0.7472527472527473
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.632183908045977,
+     0.5176470588235295,
+     0.7472527472527473
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "llm_guard_flash": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "g4_rules_plus_llm_guard": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.9770114942528736,
+     0.927710843373494,
+     1.0
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "b_prompt_gemini_3_1_pro": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "category_accuracy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision/benign": [
+     null,
+     null,
+     null
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     null,
+     null,
+     null
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     null,
+     null,
+     null
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     null,
+     null,
+     null
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     null,
+     null,
+     null
+    ],
+    "recall/sensitive_data_exposure": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     null,
+     null,
+     null
+    ],
+    "recall/business_rule_violation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "median_latency_ms": [
+     null,
+     null,
+     null
+    ],
+    "cost_per_1k_usd": [
+     null,
+     null,
+     null
+    ]
+   },
+   "unscored": 0,
+   "has_category": false
+  },
+  "tcg_tuned_4bit_laptop": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.41379310344827586,
+     0.3058823529411765,
+     0.5119047619047619
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.41379310344827586,
+     0.3058823529411765,
+     0.5119047619047619
+    ],
+    "category_accuracy": [
+     0.1839080459770115,
+     0.10714285714285714,
+     0.27058823529411763
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     0.3333333333333333,
+     0.3333333333333333,
+     0.3333333333333333
+    ],
+    "recall/indirect_prompt_injection": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.25,
+     0.0,
+     0.47058823529411764
+    ],
+    "recall/privilege_escalation": [
+     0.26666666666666666,
+     0.0,
+     0.5454545454545454
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "recall/data_exfiltration": [
+     0.25,
+     0.0,
+     0.5
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "recall/sensitive_data_exposure": [
+     0.6666666666666666,
+     0.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall/business_rule_violation": [
+     0.12903225806451613,
+     0.038461538461538464,
+     0.23333333333333334
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.2985663082437276,
+     0.1368899917287014,
+     0.42388888888888887
+    ],
+    "median_latency_ms": [
+     9474.8,
+     9216.8,
+     9909.0
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  },
+  "tcg_untuned_zs_4bit_laptop": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.4827586206896552,
+     0.3875,
+     0.5853658536585366
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.4827586206896552,
+     0.3875,
+     0.5853658536585366
+    ],
+    "category_accuracy": [
+     0.22988505747126436,
+     0.14444444444444443,
+     0.3368421052631579
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "recall/privilege_escalation": [
+     0.06666666666666667,
+     0.0,
+     0.21052631578947367
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/data_exfiltration": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.1875,
+     0.0,
+     0.3125
+    ],
+    "recall/sensitive_data_exposure": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     0.8,
+     0.6470588235294118,
+     0.9444444444444444
+    ],
+    "recall/business_rule_violation": [
+     0.25806451612903225,
+     0.14925373134328357,
+     0.4
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.1372800724911274,
+     0.09564509564509564,
+     0.2292063492063492
+    ],
+    "median_latency_ms": [
+     5854.3,
+     5516.8,
+     6081.2
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  },
+  "tcg_tuned_fp16_kaggle": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.735632183908046,
+     0.627906976744186,
+     0.8314606741573034
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.735632183908046,
+     0.627906976744186,
+     0.8314606741573034
+    ],
+    "category_accuracy": [
+     0.3333333333333333,
+     0.2441860465116279,
+     0.43529411764705883
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     0.14285714285714285,
+     0.0,
+     0.2857142857142857
+    ],
+    "recall/indirect_prompt_injection": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.4666666666666667,
+     0.2,
+     0.6923076923076923
+    ],
+    "recall/privilege_escalation": [
+     0.4666666666666667,
+     0.16666666666666666,
+     0.75
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     0.6666666666666666,
+     0.6666666666666666,
+     0.6666666666666666
+    ],
+    "recall/data_exfiltration": [
+     0.5,
+     0.0,
+     1.0
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.3333333333333333,
+     0.0,
+     0.5
+    ],
+    "recall/sensitive_data_exposure": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall/business_rule_violation": [
+     0.25806451612903225,
+     0.14925373134328357,
+     0.373134328358209
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.36176231176231183,
+     0.22856544765652803,
+     0.519300101343445
+    ],
+    "median_latency_ms": [
+     7512.3,
+     7246.25,
+     7654.4
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  },
+  "tcg_untuned_zs_fp16_kaggle": {
+   "ci95": {
+    "n": [
+     87,
+     null,
+     null
+    ],
+    "n_malicious": [
+     87,
+     null,
+     null
+    ],
+    "n_benign": [
+     0,
+     null,
+     null
+    ],
+    "json_valid_rate": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "attack_block_rate": [
+     0.632183908045977,
+     0.5393258426966292,
+     0.7311827956989247
+    ],
+    "false_positive_rate": [
+     null,
+     null,
+     null
+    ],
+    "verdict_accuracy": [
+     0.632183908045977,
+     0.5393258426966292,
+     0.7311827956989247
+    ],
+    "category_accuracy": [
+     0.26436781609195403,
+     0.1724137931034483,
+     0.36666666666666664
+    ],
+    "precision/benign": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/benign": [
+     null,
+     null,
+     null
+    ],
+    "support/benign": [
+     0,
+     null,
+     null
+    ],
+    "precision/indirect_prompt_injection": [
+     null,
+     null,
+     null
+    ],
+    "recall/indirect_prompt_injection": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/indirect_prompt_injection": [
+     2,
+     null,
+     null
+    ],
+    "precision/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "recall/social_engineering": [
+     null,
+     null,
+     null
+    ],
+    "support/social_engineering": [
+     0,
+     null,
+     null
+    ],
+    "precision/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/privilege_escalation": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/privilege_escalation": [
+     15,
+     null,
+     null
+    ],
+    "precision/data_exfiltration": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall/data_exfiltration": [
+     0.25,
+     0.0,
+     0.5
+    ],
+    "support/data_exfiltration": [
+     4,
+     null,
+     null
+    ],
+    "precision/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall/destructive_action": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support/destructive_action": [
+     1,
+     null,
+     null
+    ],
+    "precision/sensitive_data_exposure": [
+     0.13043478260869565,
+     0.0,
+     0.23529411764705882
+    ],
+    "recall/sensitive_data_exposure": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "support/sensitive_data_exposure": [
+     3,
+     null,
+     null
+    ],
+    "precision/business_rule_violation": [
+     0.8260869565217391,
+     0.6666666666666666,
+     0.9565217391304348
+    ],
+    "recall/business_rule_violation": [
+     0.3064516129032258,
+     0.2,
+     0.42857142857142855
+    ],
+    "support/business_rule_violation": [
+     62,
+     null,
+     null
+    ],
+    "macro_f1": [
+     0.17963800904977376,
+     0.08930141670737664,
+     0.2983436853002071
+    ],
+    "median_latency_ms": [
+     5464.8,
+     5359.6,
+     5860.450000000001
+    ],
+    "cost_per_1k_usd": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "unscored": 0,
+   "has_category": true
+  }
+ }
+}

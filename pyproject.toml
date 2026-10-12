@@ -1,0 +1,41 @@
+[project]
+name = "toolcall-guard"
+version = "0.1.0"
+description = "Distilled pre-execution guard for agent tool calls (Gemma 4 E4B LoRA, Gemini teacher)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "google-genai",
+    "google-cloud-aiplatform",
+    "google-cloud-storage",
+    "jsonschema>=4.26.0",
+    "numpy>=2.5.3",
+    "transformers>=5.18.0",
+    "jinja2>=3.1.6",
+]
+
+[dependency-groups]
+demo = [
+    "gradio>=6.29.1",
+]
+dev = ["pytest"]
+local = [
+    "accelerate>=1.15.0",
+    "bitsandbytes>=0.50.2",
+    "peft>=0.21.2",
+    "torch>=2.11.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.uv]
+default-groups = ["dev", "local"]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]

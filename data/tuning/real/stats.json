@@ -1,0 +1,14 @@
+{
+ "train": {
+  "examples": 2651,
+  "gemma_tokens": 3616233,
+  "max_tokens": 3587
+ },
+ "val": {
+  "examples": 150,
+  "gemma_tokens": 203085,
+  "max_tokens": 2009
+ },
+ "sha256": "fc5aa85599b529667b77cf28b9616c0f8aa921e08f466e25540e41c397cf37be",
+ "frozen_at": "2026-10-07T17:08:52+00:00"
+}

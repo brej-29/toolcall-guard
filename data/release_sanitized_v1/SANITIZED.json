@@ -1,0 +1,53 @@
+{
+ "files": {
+  "train.jsonl": {
+   "records": 2660,
+   "gmail": 105,
+   "phone_nanp": 514,
+   "phone_intl": 34
+  },
+  "val.jsonl": {
+   "records": 190,
+   "gmail": 3,
+   "phone_nanp": 39,
+   "phone_intl": 2
+  },
+  "val_frozen_150.jsonl": {
+   "records": 150,
+   "gmail": 2,
+   "phone_nanp": 32,
+   "phone_intl": 1
+  },
+  "test.jsonl": {
+   "records": 479,
+   "gmail": 32,
+   "phone_nanp": 80,
+   "phone_intl": 1
+  },
+  "disputed.jsonl": {
+   "records": 1011,
+   "gmail": 66,
+   "phone_nanp": 213,
+   "phone_intl": 11
+  },
+  "review_100.jsonl": {
+   "records": 100,
+   "gmail": 9,
+   "phone_nanp": 17,
+   "phone_intl": 0
+  },
+  "ood_30.jsonl": {
+   "records": 30,
+   "gmail": 0,
+   "phone_nanp": 0,
+   "phone_intl": 0
+  }
+ },
+ "totals": {
+  "gmail_replaced": 217,
+  "distinct_gmail_addresses": 74,
+  "phone_numbers_replaced": 944,
+  "distinct_phone_numbers": 114,
+  "gmail_left_after": 0
+ }
+}

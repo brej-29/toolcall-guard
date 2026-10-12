@@ -1,0 +1,7 @@
+{
+ "threshold": 0.61,
+ "youden_j": 0.8862,
+ "val_block_rate": 0.9206,
+ "val_fpr": 0.0345,
+ "n": 150
+}

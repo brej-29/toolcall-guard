@@ -1,0 +1,34 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# raw requests/responses, batch outputs, adapters: mirrored to the bucket, too big for git
+exports/
+adapters/
+docs_ref/*.html
+docs_ref/*.jsonl
+*.tmp
+docs_ref/pricing.md
+docs_ref/open-model-tuning.md
+
+# large data lives in the bucket (gs://.../data/) and on Hugging Face; reports stay in git
+data/v1/*.jsonl
+data/v1/teacher_labels.json
+# hidden until CHECKPOINT 3 is scored
+data/v1/review_key.json
+
+# merged checkpoints rebuilt locally from the adapter and the base (16 GB each)
+merged/
+# raw laptop int8 log (1.9 GB of bitsandbytes cast warnings); results/laptop_int8_records.log keeps the records
+results/laptop_int8.log
+
+# local copies of the Hugging Face repos (tcg.publish backup)
+hf_backup/
+
+# sanitized release copy: data lives on Hugging Face and in exports; the counts report stays in git
+data/release_sanitized_v1/*.jsonl
+data/release_sanitized_v2/*.jsonl
+
+# staged Hugging Face release folders
+hf_release/
