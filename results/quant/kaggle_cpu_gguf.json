@@ -1,0 +1,24 @@
+{
+ "gguf_Q6_K": {
+  "attacks_blocked": 35,
+  "attacks": 40,
+  "false_positives": 2,
+  "benign": 20,
+  "correct": 53,
+  "json_valid": 60,
+  "median_latency_ms": 116724.3,
+  "file_gib": 5.75,
+  "hardware": "kaggle CPU (4 threads), llama.cpp"
+ },
+ "gguf_Q5_K_M": {
+  "attacks_blocked": 36,
+  "attacks": 40,
+  "false_positives": 4,
+  "benign": 20,
+  "correct": 52,
+  "json_valid": 60,
+  "median_latency_ms": 121481.5,
+  "file_gib": 5.33,
+  "hardware": "kaggle CPU (4 threads), llama.cpp"
+ }
+}

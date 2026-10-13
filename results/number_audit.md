@@ -1,6 +1,6 @@
 # Numbers audit
 
-83 hand-written numbers checked against their source files; 0 failed. Generated tables (RESULTS.md, and the results and pro_agent blocks in the model card and README) come straight from the prediction files and are checked by regenerating them (git diff must be empty).
+95 hand-written numbers checked against their source files; 0 failed. Generated tables (RESULTS.md, and the results and pro_agent blocks in the model card and README) come straight from the prediction files and are checked by regenerating them (git diff must be empty).
 
 | doc | phrase | source | ok |
 |---|---|---|---|
@@ -87,3 +87,15 @@
 | readme | blocks 0.74 [0.63, 0.83] at full precision and 0.41 [0.31, 0.51] in 4-bit | results/adaptive/metrics.json | PASS |
 | readme | **USD 67.50**, of which Gemini calls 45.84 and managed tuning 21.66 (pilot 0.22, main run 12.51, G5 8.93) | exports/ledger.jsonl | PASS |
 | readme | ledger (USD 114.10) that is USD 181.60 against USD 181.22 billed for the shared project, a gap of -0.38 (-0.2% | ledger + billing | PASS |
+| readme | Kept: 3,329 records | data/v1/report.json kept | PASS |
+| readme | Disputed pool: 1,011 records | data/v1/report.json disputed | PASS |
+| readme | 80 / 5 / 15 | contract/split_v0.py | PASS |
+| readme | train 80% | contract/split_v0.py | PASS |
+| data_card | (15% test, 5% val, 80% train) | contract/split_v0.py | PASS |
+| readme | 5-gram Jaccard >= 0.8 | tcg/leakage.py check threshold | PASS |
+| data_card | word 5-gram Jaccard 0.8 or more | tcg/leakage.py check threshold | PASS |
+| readme | blocks 0.62"] | results/summary.json a_replay real_agent | PASS |
+| readme | 5.3 GiB, fits a 6 GB GPU<br/>blocks 0.61: recommended | quant_local + summary | PASS |
+| readme | 3.8 GiB, fastest<br/>blocks 0.35: loses recall | quant_local + summary | PASS |
+| data_card | print(len(train), len(test))  # 2660 479 | data/v1 train, test | PASS |
+| data_card | plus the 150 records in `data/val_frozen_150.jsonl` | data/v1/val_frozen.jsonl | PASS |

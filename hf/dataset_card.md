@@ -11,6 +11,8 @@ tags:
 - guardrails
 - agent-security
 - synthetic
+- agent-safety
+- llm-security
 size_categories:
 - 1K<n<10K
 pretty_name: Toolcall Guard data
@@ -18,10 +20,14 @@ pretty_name: Toolcall Guard data
 
 # Toolcall Guard data
 
-Synthetic decision records for training and testing a pre-execution guard for AI agent tool calls. Each record is one
-decision point: an agent with a role and an operator policy, trusted session facts, a tool list, the conversation so
-far (including untrusted tool outputs), and one proposed tool call, labeled `allow` or `block` with one of eight
-categories. Used to train [BrejBala/gemma-toolcall-guard](https://huggingface.co/BrejBala/gemma-toolcall-guard).
+**Synthetic decision records for training and testing a pre-execution guard for AI agent tool calls.**
+
+[![License: CC BY 4.0](https://img.shields.io/badge/license-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Model: gemma-toolcall-guard](https://img.shields.io/badge/model-gemma--toolcall--guard-informational.svg)](https://huggingface.co/BrejBala/gemma-toolcall-guard)
+
+Each record is one decision point: an agent with a role and an operator policy, trusted session facts, a tool list, the
+conversation so far (including untrusted tool outputs), and one proposed tool call, labeled `allow` or `block` with one
+of eight categories. Used to train [BrejBala/gemma-toolcall-guard](https://huggingface.co/BrejBala/gemma-toolcall-guard).
 
 **This is the sanitized release (v2).** The model was trained on the verbatim version of these records, which is kept
 private. This release differs from it only in text that could point at real people or organizations: invented Gmail
@@ -33,6 +39,36 @@ Not affiliated with or endorsed by Google. Product names are used to describe wh
 by Gemini models. Check the terms of any provider that applies to your use, including terms on using outputs to train
 models. Companion dataset: Project A's agent benchmark,
 [BrejBala/agent-govbench](https://huggingface.co/datasets/BrejBala/agent-govbench).
+
+## Load it
+
+The records nest tool arguments whose keys differ from record to record, so `datasets.load_dataset` cannot infer one
+Arrow schema for them; read the JSON lines directly (tested with huggingface_hub):
+
+```python
+import json
+from huggingface_hub import hf_hub_download
+
+def load_split(name):  # train, val, val_frozen_150, test, disputed, review_100, ood_30
+    path = hf_hub_download("BrejBala/toolcall-guard-data", f"data/{name}.jsonl", repo_type="dataset")
+    with open(path, encoding="utf-8") as f:
+        return [json.loads(line) for line in f]
+
+train, test = load_split("train"), load_split("test")
+print(len(train), len(test))  # 2660 479
+r = test[0]
+print(r["proposed_call"]["name"], r["label"]["verdict"], r["label"]["category"])
+```
+
+## What the model was trained on
+
+The adapter was trained on the **verbatim** version of these records, which is kept private: the train records plus
+the 150 records in `data/val_frozen_150.jsonl` for validation, with the review_100 families removed. This release
+holds the same records with the same ids, families, splits and labels; only the text replacements listed under "How
+this release was sanitized" differ. So every count and score in this card and in the model card holds for both
+versions, but a model trained on this release sees slightly weaker cues in a few places (for example a fictional bank
+instead of a real one as the sign of an outside destination). The frozen training file's SHA-256 (verbatim text) is in
+the model card.
 
 ## Files
 
@@ -96,6 +132,8 @@ privilege_escalation, data_exfiltration, destructive_action, sensitive_data_expo
 Full definitions and examples: `contract/taxonomy_v0.md`.
 
 ## Split rules
+
+![Each family_id is hashed with a salt into train 80%, val 5% or test 15%; a leakage check over all splits fails on a family crossing splits, exact duplicate text, or a near duplicate with 5-gram Jaccard of 0.8 or more.](assets/diagram_split.png)
 
 - `split` is a stable hash of `family_id` (15% test, 5% val, 80% train), so a record and its benign twin always share a
   split.

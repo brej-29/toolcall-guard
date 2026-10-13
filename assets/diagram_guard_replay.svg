@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="792pt" height="273.6pt" viewBox="0 0 792 273.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 273.6 
+L 792 273.6 
+L 792 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 29.304 90.0144 
+L 129.096 90.0144 
+Q 141.768 90.0144 141.768 85.6368 
+L 141.768 56.6352 
+Q 141.768 52.2576 129.096 52.2576 
+L 29.304 52.2576 
+Q 16.632 52.2576 16.632 56.6352 
+L 16.632 85.6368 
+Q 16.632 90.0144 29.304 90.0144 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #8c959f; fill-opacity: 0.133333; stroke: #8c959f; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 29.304 210.3984 
+L 129.096 210.3984 
+Q 141.768 210.3984 141.768 206.0208 
+L 141.768 177.0192 
+Q 141.768 172.6416 129.096 172.6416 
+L 29.304 172.6416 
+Q 16.632 172.6416 16.632 177.0192 
+L 16.632 206.0208 
+Q 16.632 210.3984 29.304 210.3984 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #e69f00; fill-opacity: 0.133333; stroke: #e69f00; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 243.144 151.5744 
+L 342.936 151.5744 
+Q 355.608 151.5744 355.608 147.1968 
+L 355.608 115.4592 
+Q 355.608 111.0816 342.936 111.0816 
+L 243.144 111.0816 
+Q 230.472 111.0816 230.472 115.4592 
+L 230.472 147.1968 
+Q 230.472 151.5744 243.144 151.5744 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #0072b2; fill-opacity: 0.133333; stroke: #0072b2; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 464.904 69.4944 
+L 580.536 69.4944 
+Q 593.208 69.4944 593.208 65.1168 
+L 593.208 44.3232 
+Q 593.208 39.9456 580.536 39.9456 
+L 464.904 39.9456 
+Q 452.232 39.9456 452.232 44.3232 
+L 452.232 65.1168 
+Q 452.232 69.4944 464.904 69.4944 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #009e73; fill-opacity: 0.133333; stroke: #009e73; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 464.904 137.8944 
+L 580.536 137.8944 
+Q 593.208 137.8944 593.208 133.5168 
+L 593.208 112.7232 
+Q 593.208 108.3456 580.536 108.3456 
+L 464.904 108.3456 
+Q 452.232 108.3456 452.232 112.7232 
+L 452.232 133.5168 
+Q 452.232 137.8944 464.904 137.8944 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #d55e00; fill-opacity: 0.133333; stroke: #d55e00; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 464.904 215.8704 
+L 580.536 215.8704 
+Q 593.208 215.8704 593.208 211.4928 
+L 593.208 182.4912 
+Q 593.208 178.1136 580.536 178.1136 
+L 464.904 178.1136 
+Q 452.232 178.1136 452.232 182.4912 
+L 452.232 211.4928 
+Q 452.232 215.8704 464.904 215.8704 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #6a3d9a; fill-opacity: 0.133333; stroke: #6a3d9a; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 140.290928 72.206921 
+Q 186.120798 101.232506 230.817225 129.540243 
+" clip-path="url(#p33a2796d39)" style="fill: none; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 228.046219 124.944427 
+L 230.817225 129.540243 
+L 225.477969 128.999558 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #57606a; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 140.290928 190.449079 
+Q 186.120798 161.423494 230.817225 133.115757 
+" clip-path="url(#p33a2796d39)" style="fill: none; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 225.477969 133.656442 
+L 230.817225 133.115757 
+L 228.046219 137.711573 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #57606a; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 354.045608 130.133338 
+Q 403.920147 93.023891 452.71831 56.715327 
+" clip-path="url(#p33a2796d39)" style="fill: none; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 447.434686 57.655177 
+L 452.71831 56.715327 
+L 450.300015 61.506136 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #57606a; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 354.435227 131.16894 
+Q 403.920845 127.223933 452.069066 123.385543 
+" clip-path="url(#p33a2796d39)" style="fill: none; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 447.093523 121.37458 
+L 452.069066 123.385543 
+L 447.47497 126.1594 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #57606a; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 354.127302 132.404098 
+Q 403.921463 164.160933 452.584451 195.196349 
+" clip-path="url(#p33a2796d39)" style="fill: none; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 449.827956 190.591815 
+L 452.584451 195.196349 
+L 447.246927 194.638824 
+z
+" clip-path="url(#p33a2796d39)" style="fill: #57606a; stroke: #57606a; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(32.205938 68.073012)">Live: agent proposes</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(57.328594 78.875473)">a tool call</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(37.873828 188.457012)">Replay: Project A's</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(30.578203 199.259473)">saved decision points</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(247.121719 128.265012)">Guard (this adapter)</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(247.504922 139.067473)">pre-execution check</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f2328" x="522.72" y="57.058242" transform="rotate(-0 522.72 57.058242)">allow: the tool runs</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(479.039766 120.057012)">block: call stopped,</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(489.040313 130.859473)">agent told why</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(474.185391 193.929012)">Replay only: compare</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #1f2328" transform="translate(475.065703 204.731473)">verdict with the label</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1f2328" x="15.84" y="19.302281" transform="rotate(-0 15.84 19.302281)">Where the guard sits, and how replay evaluation works</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57606a" x="15.84" y="256.65634" transform="rotate(-0 15.84 256.65634)">Replay scores each saved decision point offline. Limitation: after a block, a live agent may retry another way or</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57606a" x="15.84" y="268.96834" transform="rotate(-0 15.84 268.96834)">succeed at a later step; replay cannot see that, so block rates are per decision point, not per attack.</text>
+   </g>
+  </g>
+  <g id="patch_13">
+   <path d="M 14.256 272.5056 
+L 777.744 272.5056 
+Q 789.624 272.5056 789.624 268.4016 
+L 789.624 5.1984 
+Q 789.624 1.0944 777.744 1.0944 
+L 14.256 1.0944 
+Q 2.376 1.0944 2.376 5.1984 
+L 2.376 268.4016 
+Q 2.376 272.5056 14.256 272.5056 
+L 14.256 272.5056 
+z
+" style="fill: none; stroke: #d0d7de; stroke-linejoin: miter"/>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p33a2796d39">
+   <rect x="0" y="0" width="792" height="273.6"/>
+  </clipPath>
+ </defs>
+</svg>
