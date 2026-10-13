@@ -11,6 +11,8 @@ tags:
 - guardrails
 - agent-security
 - synthetic
+- agent-safety
+- llm-security
 size_categories:
 - 1K<n<10K
 pretty_name: Toolcall Guard data

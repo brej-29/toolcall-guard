@@ -17,6 +17,9 @@ tags:
 - tool-calls
 - agent-security
 - prompt-injection
+- agent-safety
+- tool-calling
+- llm-security
 ---
 
 # gemma-toolcall-guard
