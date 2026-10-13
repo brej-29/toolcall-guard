@@ -28,8 +28,8 @@ is not an option (offline, data that must stay local, no per-call budget), for f
 and as a reproducible, fully documented example of distilling a guard. Do not use it as the only gate for destructive,
 financial or data-export actions.
 
-- Model: [BrejBala/gemma-toolcall-guard](https://huggingface.co/BrejBala/gemma-toolcall-guard) (private for now)
-- Data: [BrejBala/toolcall-guard-data](https://huggingface.co/datasets/BrejBala/toolcall-guard-data) (sanitized release, private for now)
+- Model: [BrejBala/gemma-toolcall-guard](https://huggingface.co/BrejBala/gemma-toolcall-guard)
+- Data: [BrejBala/toolcall-guard-data](https://huggingface.co/datasets/BrejBala/toolcall-guard-data) (sanitized release)
 - Companion dataset (Project A): [BrejBala/agent-govbench](https://huggingface.co/datasets/BrejBala/agent-govbench)
 - Every guard on every test set: [RESULTS.md](RESULTS.md). Measured spend: [COSTS.md](COSTS.md). Shared contract with
   Project A: [contract/](contract/README.md).
@@ -276,8 +276,7 @@ teacher_label = labeled by A's Gemini teacher, not human):
 <details>
 <summary><b>Quick start (tested)</b>: full precision on CPU, needs only torch, transformers and peft</summary>
 
-This is `hf/quickstart.py`, the same code as the model card's quick start. It needs about 16 GB of RAM. While the
-model repo is private, log in first (`hf auth login`).
+This is `hf/quickstart.py`, the same code as the model card's quick start. It needs about 16 GB of RAM.
 
 ```python
 import json, sys, torch

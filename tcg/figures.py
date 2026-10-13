@@ -17,7 +17,7 @@ OUT = R / "assets"
 INK, MUTED, GRID = "#1f2328", "#57606a", "#d0d7de"
 COL = {"tuned": "#0072B2", "int8": "#56B4E9", "4bit": "#CC79A7", "zs": "#E69F00", "fs": "#D55E00", "flash": "#009E73",
        "pro": "#6A3D9A", "a": "#8c959f"}
-plt.rcParams.update({"svg.fonttype": "none", "font.family": "DejaVu Sans", "font.size": 10, "text.color": INK,
+plt.rcParams.update({"svg.fonttype": "none", "svg.hashsalt": "tcg", "font.family": "DejaVu Sans", "font.size": 10, "text.color": INK,
                      "axes.edgecolor": GRID, "axes.labelcolor": INK, "xtick.color": INK, "ytick.color": INK})
 DATA = {}
 
@@ -30,7 +30,7 @@ def save(fig, name: str) -> None:
     fig.patch.set_facecolor("white")
     fig.patches.append(FancyBboxPatch((0.003, 0.004), 0.994, 0.992, boxstyle="round,pad=0,rounding_size=0.015",
                                       transform=fig.transFigure, fill=False, edgecolor=GRID, linewidth=1))
-    for ext, kw in (("svg", {}), ("png", {"dpi": 130})):
+    for ext, kw in (("svg", {"metadata": {"Date": None}}), ("png", {"dpi": 130})):
         fig.savefig(OUT / f"{name}.{ext}", facecolor="white", **kw)
     plt.close(fig)
 

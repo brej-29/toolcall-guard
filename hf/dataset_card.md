@@ -60,8 +60,6 @@ r = test[0]
 print(r["proposed_call"]["name"], r["label"]["verdict"], r["label"]["category"])
 ```
 
-While this repo is private, log in first (`hf auth login`).
-
 ## What the model was trained on
 
 The adapter was trained on the **verbatim** version of these records, which is kept private: the train records plus

@@ -1,6 +1,6 @@
 """Docs checks for README.md and the two Hugging Face cards, run before publishing. Exits 1 on any failure.
   numbers       tcg.audit_numbers passes; regenerating the card blocks (tcg.evaluate card) and the figures
-                (tcg.figures) changes nothing; every two-decimal number in an image's alt text is a number drawn in
+                (tcg.figures) changes nothing, images included; every two-decimal number in an image's alt text is a number drawn in
                 that image (assets/figures_data.json); the Replication block equals hf/replication.md
   links         relative links and images exist; with --online, http(s) links answer below 400
   placeholders  no [NAME], <<<...>>>, FILL IN, TODO, TBD, [PASTE ...]
@@ -43,7 +43,7 @@ def numbers() -> None:
     p = run("tcg.audit_numbers")
     if p.returncode:
         fail("numbers", "tcg.audit_numbers failed:\n" + p.stdout[-2000:])
-    before = {f: f.read_bytes() for f in DOCS[:2] + [R / "assets" / "figures_data.json"]}
+    before = {f: f.read_bytes() for f in DOCS[:2] + sorted((R / "assets").iterdir())}
     for step in (("tcg.evaluate", "card"), ("tcg.figures",)):
         p = run(*step)
         if p.returncode:

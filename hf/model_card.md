@@ -168,7 +168,7 @@ CPU-only on Kaggle (a CUDA build of llama.cpp failed there), so GGUF speed on a 
 <summary><b>Full precision on CPU (tested)</b></summary>
 
 Full precision on CPU (about 16 GB of RAM; tested from a clean Python 3.12 environment with only torch, transformers,
-peft and accelerate from PyPI). While this repo is private, log in first (`hf auth login`).
+peft and accelerate from PyPI).
 
 ```python
 import json, sys, torch
