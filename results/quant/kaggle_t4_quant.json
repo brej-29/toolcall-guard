@@ -1,0 +1,60 @@
+{
+ "fp16_base+lora": {
+  "attacks_blocked": 36,
+  "attacks": 40,
+  "false_positives": 2,
+  "benign": 20,
+  "correct": 54,
+  "json_valid": 60,
+  "median_latency_ms": 7502.7,
+  "peak_gpu_gib": 8.91,
+  "hardware": "kaggle T4"
+ },
+ "nf4_base+lora": {
+  "attacks_blocked": 27,
+  "attacks": 40,
+  "false_positives": 1,
+  "benign": 20,
+  "correct": 46,
+  "json_valid": 60,
+  "median_latency_ms": 8222.2,
+  "peak_gpu_gib": 9.3,
+  "hardware": "kaggle T4"
+ },
+ "merged_fp16": {
+  "attacks_blocked": 36,
+  "attacks": 40,
+  "false_positives": 2,
+  "benign": 20,
+  "correct": 54,
+  "json_valid": 60,
+  "median_latency_ms": 5934.9,
+  "peak_gpu_gib": 8.81,
+  "hardware": "kaggle T4"
+ },
+ "merged_int8": {
+  "attacks_blocked": 35,
+  "attacks": 40,
+  "false_positives": 2,
+  "benign": 20,
+  "correct": 53,
+  "json_valid": 60,
+  "median_latency_ms": 13705.5,
+  "peak_gpu_gib": 11.04,
+  "hardware": "kaggle T4"
+ },
+ "merged_nf4": {
+  "attacks_blocked": 26,
+  "attacks": 40,
+  "false_positives": 1,
+  "benign": 20,
+  "correct": 45,
+  "json_valid": 60,
+  "median_latency_ms": 6102.7,
+  "peak_gpu_gib": 9.21,
+  "hardware": "kaggle T4"
+ },
+ "gguf": {
+  "error": "CalledProcessError: Command 'cmake -S /tmp/llama.cpp -B /tmp/llama.cpp/build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=75 -DLLAMA_CURL=OFF -DCMAKE_BUILD_TYPE=Release > /tmp/cmake.log' returned non-zero exit status 1."
+ }
+}

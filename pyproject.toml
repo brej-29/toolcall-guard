@@ -18,6 +18,9 @@ demo = [
     "gradio>=6.29.1",
 ]
 dev = ["pytest"]
+docs = [
+    "matplotlib>=3.11.2",
+]
 local = [
     "accelerate>=1.15.0",
     "bitsandbytes>=0.50.2",

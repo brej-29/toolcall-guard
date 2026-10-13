@@ -216,6 +216,27 @@ a_led, billed = 114.10, 17395.53 / 95.99  # A's final ledger (its COSTS.md); the
 claim("readme", f"ledger (USD {a_led:.2f}) that is USD {a_led + sum(led.values()):.2f} against USD {billed:.2f} billed for the shared project, a gap of "
                 f"{billed - a_led - sum(led.values()):.2f} ({100 * (billed - a_led - sum(led.values())) / billed:.1f}%", "ledger + billing")
 
+# README diagrams (Mermaid) and the dataset card's load snippet
+claim("readme", f"Kept: {n_(rep['kept'])} records", "data/v1/report.json kept")
+claim("readme", f"Disputed pool: {n_(rep['disputed'])} records", "data/v1/report.json disputed")
+from contract.split_v0 import TEST_FRACTION, VAL_FRACTION  # noqa: E402
+pc = lambda x: round(100 * x)
+for doc in ("readme",):
+    claim(doc, f"80 / {pc(VAL_FRACTION)} / {pc(TEST_FRACTION)}", "contract/split_v0.py")
+    claim(doc, f"train {100 - pc(VAL_FRACTION) - pc(TEST_FRACTION)}%", "contract/split_v0.py")
+claim("data_card", f"({pc(TEST_FRACTION)}% test, {pc(VAL_FRACTION)}% val, {100 - pc(VAL_FRACTION) - pc(TEST_FRACTION)}% train)", "contract/split_v0.py")
+import inspect  # noqa: E402
+from tcg import leakage  # noqa: E402
+lt = inspect.signature(leakage.check).parameters["threshold"].default
+claim("readme", f"5-gram Jaccard >= {lt}", "tcg/leakage.py check threshold")
+claim("data_card", f"word 5-gram Jaccard {lt} or more", "tcg/leakage.py check threshold")
+for doc in ("readme",):
+    claim(doc, f"blocks {f2(ra('gemma-4-e4b tuned (ours)', 'attack_block_rate'))}\"]", "results/summary.json a_replay real_agent")
+    claim(doc, f"{lq['merged_int8 cuda']['peak_gpu_gib']:.1f} GiB, fits a 6 GB GPU<br/>blocks {f2(ra(i8, 'attack_block_rate'))}: recommended", "quant_local + summary")
+    claim(doc, f"{lq['nf4_base+lora cuda']['peak_gpu_gib']:.1f} GiB, fastest<br/>blocks {f2(ra('gemma-4-e4b tuned (ours), 4-bit laptop', 'attack_block_rate'))}: loses recall", "quant_local + summary")
+claim("data_card", f"print(len(train), len(test))  # {len(v1['train'])} {len(v1['test'])}", "data/v1 train, test")
+claim("data_card", f"plus the {len(read_jsonl(R / 'data/v1/val_frozen.jsonl'))} records in `data/val_frozen_150.jsonl`", "data/v1/val_frozen.jsonl")
+
 bad = [r for r in rows if not r[3]]
 out = ["# Numbers audit", "", f"{len(rows)} hand-written numbers checked against their source files; {len(bad)} failed. Generated tables "
        "(RESULTS.md, and the results and pro_agent blocks in the model card and README) come straight from the prediction "

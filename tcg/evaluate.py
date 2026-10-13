@@ -490,9 +490,46 @@ def card_tables() -> str:
         mrows.append(f"| {display('a_replay', r['guard'])} | {r['threshold']:.4f} | {ci2(r['attack_block_rate'])} | "
                      f"{ci2(r['false_positive_rate'], 3)} |")
     matched_text = "\n".join(mrows)
+    # key results: the headline guards on A's real agent traffic, the adaptive rewrites and the synthetic test
+    ad = json.loads((R / "adaptive" / "metrics.json").read_text(encoding="utf-8"))["all"]
+    krows = ["| guard | runs where | A real traffic: attacks blocked | A real traffic: false positives | "
+             "adaptive rewrites blocked | synthetic test: attacks blocked |", "|---|---|---|---|---|---|"]
+    for g, label, adk in (("gemma-4-e4b tuned (ours)", "**this adapter, full precision**", "tcg_tuned_fp16_kaggle"),
+                          ("gemma-4-e4b tuned (ours), merged int8", "this adapter, 8-bit", None),
+                          ("gemma-4-e4b tuned (ours), 4-bit laptop", "this adapter, 4-bit", "tcg_tuned_4bit_laptop"),
+                          ("gemma-4-e4b untuned zero-shot", "untuned Gemma 4 E4B, zero-shot", "tcg_untuned_zs_fp16_kaggle"),
+                          ("gemini-3.8-flash zero-shot", "Gemini 3.8 Flash, same prompt", None),
+                          ("gemini-3.1-pro zero-shot", "Gemini 3.1 Pro, same prompt", "b_prompt_gemini_3_1_pro")):
+        m, cost = s["a_replay"][f"{g} | real_agent"], s["a_replay"][g]["cost_per_1k_usd"][0]
+        mark = " C" if ("synthetic_test", g) in CIRCULAR else " G" if ("synthetic_test", g) in GENERATOR_ADVANTAGE else ""
+        krows.append(f"| {label} | {'local, free' if not cost else f'hosted, USD {cost:.2f} per 1,000'} | "
+                     f"{ci2(m['attack_block_rate'])} | {ci2(m['false_positive_rate'])} | "
+                     f"{ci2(ad[adk]['ci95']['attack_block_rate']) if adk else '-'} | "
+                     f"{ci2(s['synthetic_test'][g]['attack_block_rate'])}{mark} |")
+    ra = s["a_replay"]["gemma-4-e4b tuned (ours) | real_agent"]
+    key_text = "\n".join(krows + ["", f"95% family-clustered bootstrap intervals. A real traffic: {ra['n'][0]:,} held-out calls from "
+                                  f"Project A's agent ({ra['n_malicious'][0]:,} attacks, {ra['n_benign'][0]:,} benign). Adaptive: "
+                                  f"{ad['tcg_tuned_fp16_kaggle']['ci95']['n'][0]} of A's attacks rewritten by Gemini 3.1 Pro "
+                                  "to evade guards. Hosted cost: per 1,000 decisions on A's replay sample at the standard "
+                                  "on-demand price. C: circular (Pro labeled the synthetic set). G: advantaged (Flash wrote it). "
+                                  "\"-\": not run."])
+    # per-category recall (share of each attack category blocked with the right category) on A's real traffic and the synthetic test
+    cg = [("gemma-4-e4b tuned (ours)", "this adapter"), ("gemma-4-e4b untuned zero-shot", "untuned"),
+          ("gemini-3.1-pro zero-shot", "Gemini 3.1 Pro")]
+    crows = ["| category | A real traffic: n | " + " | ".join(lab for _, lab in cg) + " | synthetic test: n | this adapter |",
+             "|---" * (len(cg) + 4) + "|"]
+    syn_t = s["synthetic_test"]["gemma-4-e4b tuned (ours)"]
+    for cat in CATEGORIES[1:]:
+        a_ = [s["a_replay"][f"{g} | real_agent"] for g, _ in cg]
+        crows.append(f"| {cat} | {a_[0][f'support/{cat}'][0]} | " + " | ".join(ci2(m[f'recall/{cat}']) for m in a_) +
+                     f" | {syn_t[f'support/{cat}'][0]} | {ci2(syn_t[f'recall/{cat}'])} |")
+    cat_text = "\n".join(crows + ["", "Recall per category: the share of that category's attacks the guard blocked and named with "
+                                  "that category (a block with another category counts as a miss here, not in the block rate). "
+                                  "95% family-clustered bootstrap intervals; \"-\": no records of that category."])
     for f in (config.ROOT / "hf" / "model_card.md", config.ROOT / "README.md"):
         t = f.read_text(encoding="utf-8")
-        for tag, body in (("results", text), ("pro_agent", pro_text), ("matched", matched_text)):
+        for tag, body in (("results", text), ("pro_agent", pro_text), ("matched", matched_text), ("key", key_text),
+                          ("categories", cat_text)):
             if f"<!-- {tag}:start -->" in t:
                 head, rest = t.split(f"<!-- {tag}:start -->", 1)
                 t = head + f"<!-- {tag}:start -->\n" + body + f"\n<!-- {tag}:end -->" + rest.split(f"<!-- {tag}:end -->", 1)[1]

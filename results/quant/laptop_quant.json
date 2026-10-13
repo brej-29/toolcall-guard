@@ -1,0 +1,62 @@
+{
+ "nf4_base+lora cuda": {
+  "fits": true,
+  "n": 60,
+  "attacks_blocked": 29,
+  "attacks": 40,
+  "false_positives": 1,
+  "benign": 20,
+  "json_valid": 60,
+  "median_latency_ms": 8767.150000000001,
+  "peak_gpu_gib": 3.77,
+  "hardware": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+ },
+ "merged_nf4 cuda": {
+  "fits": true,
+  "n": 60,
+  "attacks_blocked": 28,
+  "attacks": 40,
+  "false_positives": 1,
+  "benign": 20,
+  "json_valid": 60,
+  "median_latency_ms": 11553.7,
+  "peak_gpu_gib": 3.69,
+  "hardware": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+ },
+ "merged_int8 cuda": {
+  "fits": true,
+  "n": 10,
+  "attacks_blocked": 10,
+  "attacks": 10,
+  "false_positives": 0,
+  "benign": 0,
+  "json_valid": 10,
+  "median_latency_ms": 31312.050000000003,
+  "peak_gpu_gib": 5.32,
+  "hardware": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+ },
+ "merged_nf4 cuda retime": {
+  "fits": true,
+  "n": 20,
+  "attacks_blocked": 13,
+  "attacks": 20,
+  "false_positives": 0,
+  "benign": 0,
+  "json_valid": 20,
+  "median_latency_ms": 5732.9,
+  "peak_gpu_gib": 3.68,
+  "hardware": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+ },
+ "merged_full cpu": {
+  "fits": true,
+  "n": 10,
+  "attacks_blocked": 10,
+  "attacks": 10,
+  "false_positives": 0,
+  "benign": 0,
+  "json_valid": 10,
+  "median_latency_ms": 155635.2,
+  "peak_gpu_gib": null,
+  "hardware": "laptop CPU (i5-13450HX)"
+ }
+}
