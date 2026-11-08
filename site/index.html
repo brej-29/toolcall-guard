@@ -7,14 +7,16 @@
 <meta name="description" content="Check an AI agent's tool call before it runs. Free local Gemma 4 LoRA guard, a cheap-first cascade that escalates to Gemini only when unsure, an MCP server, and honest benchmark results with confidence intervals.">
 <meta name="keywords" content="AI agent guardrails, tool call guard, prompt injection detection, MCP server, LLM agent security, Gemma 4, LoRA, Gemini, agent safety, pre-execution check">
 <link rel="canonical" href="https://brej-29.github.io/toolcall-guard/">
-<meta name="theme-color" content="#07090f">
+<meta name="theme-color" content="#0c0b0a">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Toolcall Guard: free pre-execution guard for AI agent tool calls">
 <meta property="og:description" content="Free local guard model, cascade to Gemini only when unsure, MCP server, and honest results.">
 <meta property="og:url" content="https://brej-29.github.io/toolcall-guard/">
 <meta property="og:image" content="https://brej-29.github.io/toolcall-guard/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307090f'/%3E%3Cpath d='M16 5l9 4v7c0 6-4 9-9 11C11 25 7 22 7 16V9z' fill='none' stroke='%2345e0b0' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230c0b0a'/%3E%3Cpath d='M16 5l9 4v7c0 6-4 9-9 11C11 25 7 22 7 16V9z' fill='none' stroke='%23ff5b3a' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"SoftwareApplication","name":"Toolcall Guard","applicationCategory":"DeveloperApplication","operatingSystem":"Any","url":"https://brej-29.github.io/toolcall-guard/","codeRepository":"https://github.com/brej-29/toolcall-guard","license":"https://www.apache.org/licenses/LICENSE-2.0","author":{"@type":"Person","name":"brej-29","url":"https://github.com/brej-29"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A free local guard model and MCP server that checks one AI agent tool call before it runs and answers allow or block with a category and reason."},
@@ -24,118 +26,190 @@
 {"@type":"Question","name":"How do I use it with Claude, Cursor or another MCP client?","acceptedAnswer":{"@type":"Answer","text":"Run the stdio MCP server in the repository (python -m tcg.mcp_server) and call the check_tool_call tool before executing a tool. Backends: keyword, local model, Gemini with your own key, or a cascade."}}]}]}
 </script>
 <style>
-:root{--bg:#07090f;--bg2:#0d111b;--ink:#e8ecf4;--mute:#8b95ab;--line:#1c2333;--mint:#45e0b0;--red:#ff6b7a;--amber:#ffc65c;--blue:#6aa8ff;--r:16px}
-@media (prefers-color-scheme:light){:root{--bg:#f6f7fb;--bg2:#fff;--ink:#10141f;--mute:#586078;--line:#dfe3ee;--mint:#0a9b72;--red:#d6334a;--amber:#b9780a;--blue:#2f6fe0}}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 ui-sans-serif,system-ui,"Segoe UI",Inter,sans-serif;overflow-x:hidden}
+:root{--bg:#0c0b0a;--bg2:#15130f;--ink:#f2ecdf;--mute:#a39b8b;--line:#2b2822;--ok:#a6e35f;--bad:#ff5b3a;--warn:#ffb347;--node:242,236,223;
+--disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--body:"Instrument Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;--ease:cubic-bezier(.16,1,.3,1)}
+@media (prefers-color-scheme:light){:root{--bg:#f2ecdf;--bg2:#fbf7ee;--ink:#15130f;--mute:#5f584a;--line:#d8cfbb;--ok:#3f7d12;--bad:#c9391b;--warn:#8f5200;--node:21,19,15}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+::selection{background:var(--bad);color:#fff}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px;border:2px solid var(--bg)}::-webkit-scrollbar-thumb:hover{background:var(--mute)}
+:focus-visible{outline:2px solid var(--warn);outline-offset:3px;border-radius:4px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 var(--body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-main,header,footer{position:relative;z-index:1}
-a{color:var(--mint)}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-nav{position:sticky;top:0;z-index:5;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;gap:18px;align-items:center;height:56px}
-nav b{margin-right:auto;letter-spacing:.02em}nav a{color:var(--mute);text-decoration:none;font-size:14px}nav a:hover{color:var(--ink)}
-.hero{padding:96px 0 56px;text-align:center}
-.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:4px 14px;font-size:13px;color:var(--mute);background:var(--bg2)}
-h1{font-size:clamp(34px,6vw,64px);line-height:1.05;margin:20px 0 16px;letter-spacing:-.03em}
-h1 em{font-style:normal;background:linear-gradient(90deg,var(--mint),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{max-width:680px;margin:0 auto 28px;color:var(--mute);font-size:18px}
-.btn{display:inline-block;padding:11px 20px;border-radius:12px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;margin:4px;background:var(--bg2);transition:.2s}
-.btn:hover{transform:translateY(-2px);border-color:var(--mint)}.btn.p{background:var(--mint);color:#04120c;border-color:var(--mint)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:48px}
-.stat{padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg2)}
-.stat b{display:block;font-size:34px;letter-spacing:-.02em}.stat span{color:var(--mute);font-size:13px}
-section{padding:72px 0}
-h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin:0 0 8px}
-.sub{color:var(--mute);margin:0 0 28px;max-width:720px}
-.card{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:22px;position:relative;overflow:hidden}
-.card::before{content:"";position:absolute;inset:0;background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--mint) 14%,transparent),transparent 60%);opacity:0;transition:.3s;pointer-events:none}
-.card:hover::before{opacity:1}
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
-.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
-.node{flex:1 1 150px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--bg2);font-size:14px}
-.node b{display:block;color:var(--mint)}
-.arrow{align-self:center;color:var(--mute);animation:nudge 1.6s infinite}
-@keyframes nudge{50%{transform:translateX(5px)}}
-label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
-textarea,input,select{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:13px ui-monospace,Consolas,monospace}
-textarea{min-height:92px;resize:vertical}
-.row{display:grid;gap:16px;grid-template-columns:1fr 1fr}@media(max-width:800px){.row{grid-template-columns:1fr}}
-.chips button{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:6px 14px;margin:0 6px 6px 0;cursor:pointer}
-.chips button.on{border-color:var(--mint);color:var(--mint)}
-.verdict{display:flex;gap:12px;align-items:center;margin:10px 0;padding:14px;border-radius:12px;border:1px solid var(--line)}
-.verdict .tag{font-weight:800;padding:4px 12px;border-radius:8px}
-.allow .tag{background:color-mix(in srgb,var(--mint) 22%,transparent);color:var(--mint)}.block .tag{background:color-mix(in srgb,var(--red) 22%,transparent);color:var(--red)}
-.verdict small{color:var(--mute)}
-.bar{height:12px;border-radius:6px;background:var(--line);overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;width:0;border-radius:6px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
-table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--mute);font-weight:600}
-pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto;font-size:13px;position:relative}
-.copy{position:absolute;right:8px;top:8px;font-size:12px;padding:3px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);cursor:pointer}
-input[type=range]{padding:0;accent-color:var(--mint)}
-.note{font-size:13px;color:var(--mute);border-left:3px solid var(--amber);padding:2px 12px;margin:14px 0}
-details{border-bottom:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:600}
-footer{padding:40px 0 60px;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+#spot{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(420px circle at var(--cx,50%) var(--cy,30%),rgba(255,91,58,.09),transparent 65%)}
+main,header,footer,nav{position:relative;z-index:1}
+a{color:var(--warn);text-underline-offset:3px}
+code,pre,textarea,input,.mono{font-family:var(--mono)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+#prog{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--bad);transform:scaleX(0);transform-origin:left;z-index:20}
+nav{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:26px;align-items:center;height:60px}
+.mark{margin-right:auto;font:800 24px/1 var(--disp);letter-spacing:.04em;text-transform:uppercase;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.mark i{width:12px;height:12px;background:var(--bad);display:inline-block;transform:rotate(45deg)}
+nav a:not(.mark){color:var(--mute);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}nav a:not(.mark):hover{color:var(--ink)}
+@media(max-width:700px){nav a:not(.mark):not(:last-child){display:none}}
+h1,h2,h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;margin:0;line-height:.94;letter-spacing:-.005em;text-wrap:balance}
+h1{font-size:clamp(48px,9.4vw,96px)}
+h2{font-size:clamp(40px,6vw,76px)}
+h3{font-size:28px;letter-spacing:.01em}
+.hero{padding:72px 0 0}
+.hero p.lead{max-width:600px;color:var(--mute);font-size:19px;margin:24px 0 30px}
+h1 .bad{color:var(--bad)}
+.btn{display:inline-block;padding:13px 22px;border:1px solid var(--ink);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;margin:0 10px 10px 0;background:transparent;cursor:pointer;font-family:var(--body);transition:background .25s var(--ease),color .25s,transform .25s var(--ease)}
+.btn:hover{background:var(--ink);color:var(--bg)}.btn.p{background:var(--bad);border-color:var(--bad);color:#fff}.btn.p:hover{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+/* conveyor */
+.lane{position:relative;height:230px;margin-top:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:repeating-linear-gradient(90deg,transparent 0 38px,rgba(128,120,104,.07) 38px 40px)}
+.lane .floor{position:absolute;left:0;right:0;bottom:36px;height:2px;background:var(--line)}
+.gate{position:absolute;left:50%;top:0;bottom:0;width:150px;margin-left:-75px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);background:linear-gradient(90deg,rgba(255,91,58,.06),rgba(255,91,58,.0),rgba(255,91,58,.06))}
+.gate::before,.gate::after{content:"";position:absolute;left:-2px;right:-2px;height:14px;background:var(--ink)}.gate::before{top:0}.gate::after{bottom:0}
+.gate .beam{position:absolute;left:0;right:0;height:2px;background:var(--bad);box-shadow:0 0 18px 4px rgba(255,91,58,.55);animation:beam 2.6s var(--ease) infinite alternate}
+@keyframes beam{from{top:16px}to{top:calc(100% - 18px)}}
+.gate small{position:absolute;bottom:20px;left:0;right:0;text-align:center;font:500 11px var(--mono);letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+.tk{position:absolute;left:0;bottom:44px;width:260px;padding:12px 14px;background:var(--bg2);border:1px solid var(--mute);font:12px/1.5 var(--mono);will-change:transform}
+.tk b{display:block;font-size:13px;color:var(--ink)}.tk span.a{display:block;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stamp{position:absolute;right:10px;top:-14px;font:900 22px/1 var(--disp);letter-spacing:.06em;padding:4px 10px;border:3px solid;transform:rotate(-7deg);opacity:0;background:var(--bg)}
+.stamp.allow{color:var(--ok);border-color:var(--ok)}.stamp.block{color:var(--bad);border-color:var(--bad)}
+.tk.done .stamp{animation:thunk .45s var(--ease) forwards}
+@keyframes thunk{0%{opacity:0;transform:rotate(-7deg) scale(2.2)}60%{opacity:1;transform:rotate(-7deg) scale(.94)}100%{opacity:1;transform:rotate(-7deg) scale(1)}}
+.tape{border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;font:500 13px var(--mono);color:var(--mute);padding:11px 0;text-transform:uppercase;letter-spacing:.12em}
+.tape div{display:inline-block;animation:tape 38s linear infinite}.tape span{margin:0 26px}.tape span:nth-child(odd){color:var(--ink)}
+@keyframes tape{to{transform:translateX(-50%)}}
+section.wrap{padding-top:110px;padding-bottom:30px}
+.sub{color:var(--mute);margin:18px 0 38px;max-width:640px;font-size:18px}
+/* statement */
+#stats{font:800 clamp(34px,5.4vw,66px)/1.04 var(--disp);text-transform:uppercase;letter-spacing:-.005em;max-width:1000px}
+#stats .w{color:var(--line);transition:color .4s}#stats .w.lit{color:var(--ink)}#stats .w.lit.hot{color:var(--bad)}
+/* story */
+.story{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:44px}
+.steps .st{min-height:62vh;display:flex;flex-direction:column;justify-content:center;opacity:.28;transition:opacity .5s}
+.steps .st.on{opacity:1}
+.steps .st p{color:var(--mute);max-width:440px;margin:12px 0 0}
+.steps .st h3 b{color:var(--bad);font-weight:800;margin-right:10px}
+.panel{position:sticky;top:96px;height:420px;border:1px solid var(--line);background:var(--bg2);overflow:hidden;align-self:start}
+.frame{position:absolute;inset:0;padding:30px;opacity:0;transform:translateY(24px);transition:opacity .55s var(--ease),transform .55s var(--ease);pointer-events:none;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.frame.on{opacity:1;transform:none}
+.frame pre{margin:0;background:var(--bg);border:1px solid var(--line);padding:16px;font-size:13px;white-space:pre-wrap;word-break:break-word}
+.frame .big{font:900 clamp(60px,9vw,120px)/.9 var(--disp)}.frame .cap{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.meter{height:22px;border:1px solid var(--mute);position:relative;overflow:hidden}.meter i{position:absolute;left:0;top:0;bottom:0;background:var(--bad);width:0;transition:width 1.3s var(--ease)}
+.zone{position:relative;height:34px;border:1px solid var(--mute);display:flex;overflow:hidden}
+.zone i{display:block;height:100%;transition:width .5s var(--ease);font:500 10px/34px var(--mono);text-align:center;overflow:hidden;white-space:nowrap;letter-spacing:.08em;color:#0c0b0a}
+.zone .z1{background:var(--ok)}.zone .z2{background:repeating-linear-gradient(135deg,var(--warn) 0 6px,#e69a28 6px 12px)}.zone .z3{background:var(--bad)}
+@media(max-width:900px){.story{grid-template-columns:1fr;gap:0}.panel{top:60px;height:300px;z-index:3;order:-1}.frame{padding:18px;gap:10px}.steps .st{min-height:50vh}.frame .big{font-size:56px}}
+/* desk */
+.desk{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--ink)}
+.desk>div{padding:26px;position:relative;overflow:hidden}.desk>div:first-child{border-right:1px solid var(--ink)}
+@media(max-width:860px){.desk{grid-template-columns:1fr}.desk>div:first-child{border-right:0;border-bottom:1px solid var(--ink)}}
+.glow::before{content:"";position:absolute;inset:0;background:radial-gradient(340px circle at var(--mx,50%) var(--my,0%),rgba(255,91,58,.14),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}.glow:hover::before{opacity:1}
+label{display:block;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:16px 0 6px}
+textarea,input,select{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:0;padding:11px;font-size:13px;transition:border-color .2s}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--warn)}
+textarea{min-height:96px;resize:vertical}input[type=checkbox]{width:auto;accent-color:var(--bad)}
+.chips button{background:transparent;color:var(--ink);border:1px solid var(--line);padding:7px 16px;margin:0 8px 8px 0;cursor:pointer;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;transition:.2s}
+.chips button:hover{border-color:var(--ink)}.chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.verdict{display:flex;gap:16px;align-items:flex-start;margin:0 0 12px;padding:14px;border:1px solid var(--line);animation:in .5s var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.verdict .tag{font:900 26px/1 var(--disp);letter-spacing:.06em;padding:6px 12px;border:3px solid;transform:rotate(-4deg)}
+.allow .tag{color:var(--ok);border-color:var(--ok)}.block .tag{color:var(--bad);border-color:var(--bad)}
+.verdict small{color:var(--mute);display:block;font-size:13px;line-height:1.5}
+.note{font-size:14px;color:var(--mute);margin:16px 0;padding-left:14px;border-left:1px solid var(--warn)}
+#suite{width:100%;border-collapse:collapse;font-size:13px;margin-top:14px}#suite td,#suite th{padding:10px 6px;border-bottom:1px solid var(--line);text-align:left}#suite th{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.suite{border:1px solid var(--ink);border-top:0;padding:26px}
+/* cascade */
+.cas{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}@media(max-width:860px){.cas{grid-template-columns:1fr;gap:28px}}
+input[type=range]{padding:0;accent-color:var(--bad);height:28px}
+.cmrow{padding:16px 0;border-bottom:1px solid var(--line)}.cmrow:first-child{padding-top:0}
+.cmrow h4{margin:0 0 4px;font:800 22px var(--disp);text-transform:uppercase;letter-spacing:.03em}.cmrow small{color:var(--mute);font:12px var(--mono)}
+.bar{height:10px;background:var(--line);margin:8px 0 4px}.bar i{display:block;height:100%;width:0;transition:width 1s var(--ease)}
+/* results */
+.rp{display:grid;grid-template-columns:200px 1fr 1fr;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.rp.head{padding:0 0 10px;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.rp .nm{font:800 22px/1.05 var(--disp);text-transform:uppercase}
+.track{position:relative;height:30px}.track::before{content:"";position:absolute;left:0;right:0;top:14px;height:2px;background:var(--line)}
+.wh{position:absolute;top:13px;height:4px;background:var(--mute);transition:left 1.2s var(--ease),width 1.2s var(--ease);left:0;width:0}
+.dot{position:absolute;top:6px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--ink);transition:left 1.2s var(--ease);left:0}
+.dot.me{background:var(--bad)}.val{position:absolute;top:-14px;font:500 12px var(--mono);transform:translateX(-50%);color:var(--ink);white-space:nowrap}
+@media(max-width:760px){.rp{grid-template-columns:1fr;gap:10px}.rp.head{display:none}}
+/* code */
+pre.code{background:var(--bg2);border:1px solid var(--line);padding:18px;overflow:auto;font-size:13px;position:relative;margin:0 0 16px}
+.copy{position:absolute;right:10px;top:10px;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--mute);background:var(--bg);color:var(--ink);cursor:pointer}
+.copy:hover{background:var(--ink);color:var(--bg)}
+details{border-bottom:1px solid var(--line);padding:20px 0}summary{cursor:pointer;font:800 26px var(--disp);text-transform:uppercase;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"+";transition:transform .3s var(--ease)}details[open] summary::after{transform:rotate(45deg)}details p{color:var(--mute);max-width:640px;margin:12px 0 0}
+footer{margin-top:120px;border-top:1px solid var(--line);padding:50px 0 40px;overflow:hidden}
+footer .big{font:900 clamp(60px,17vw,230px)/.82 var(--disp);text-transform:uppercase;color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
+footer .big span{color:var(--bad)}footer p{color:var(--mute);font-size:14px;margin:30px 0 0}
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}.rv.in{opacity:1;transform:none}
+.sp .wd{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}.sp .wd i{display:inline-block;font-style:normal;transform:translateY(105%);transition:transform .8s var(--ease)}.sp.in .wd i{transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.sp .wd i{transform:none}.tk{display:none}}
 </style>
 </head>
 <body>
+<div id="prog"></div><div id="spot"></div>
 <canvas id="bg" aria-hidden="true"></canvas>
-<nav><div class="wrap"><b>Toolcall Guard</b><a href="#try">Try it</a><a href="#cascade">Cascade</a><a href="#results">Results</a><a href="#mcp">MCP</a><a href="https://github.com/brej-29/toolcall-guard">GitHub</a></div></nav>
-<header class="hero wrap">
-  <span class="pill">Open source · Apache 2.0 · bring your own key for hosted models</span>
-  <h1>Check every agent tool call <em>before</em> it runs.</h1>
-  <p class="lead">A free local guard, a cheap-first cascade that pays for Gemini only when the local model is unsure, and an MCP server you can drop into your agent. With honest numbers and confidence intervals.</p>
-  <a class="btn p" href="#try">Try the playground</a><a class="btn" href="#mcp">Add to your agent (MCP)</a><a class="btn" href="https://huggingface.co/BrejBala/gemma-toolcall-guard">Model on Hugging Face</a>
-  <div class="stats" id="stats"></div>
+<nav><div class="wrap"><a class="mark" href="#top"><i></i>Toolcall Guard</a><a href="#try">Try it</a><a href="#cascade">Cascade</a><a href="#results">Results</a><a href="#mcp">MCP</a><a href="https://github.com/brej-29/toolcall-guard">GitHub</a></div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <h1 class="sp">Every tool call gets <span class="bad">stamped</span> before it runs.</h1>
+  <p class="lead">A free local model checks the call. When it is unsure, Gemini does, on your key. You see what each one catches, and what it misses.</p>
+  <a class="btn p" href="#try">Try the desk</a><a class="btn" href="#mcp">Plug into your agent</a><a class="btn" href="https://huggingface.co/BrejBala/gemma-toolcall-guard">Get the model</a>
+</div>
+<div class="wrap"><div class="lane" id="lane" role="img" aria-label="Animation: tool calls travel through a checkpoint and are stamped allow or block."><div class="floor"></div><div class="gate"><div class="beam"></div><small>guard</small></div></div></div>
+<div class="tape" aria-hidden="true"><div id="tape"></div></div>
 </header>
-<main class="wrap">
 
-<section class="rv"><h2>How it works</h2><p class="sub">One proposed tool call in, one JSON verdict out. The cascade decides who answers.</p>
-<div class="flow">
-<div class="node"><b>1. Agent proposes</b>role, policy, session facts, conversation, one tool call</div><span class="arrow">→</span>
-<div class="node"><b>2. Local adapter</b>Gemma 4 E4B + LoRA, free, reports its confidence</div><span class="arrow">→</span>
-<div class="node"><b>3. Confident?</b>yes: answer locally. no: ask Gemini with your key</div><span class="arrow">→</span>
-<div class="node"><b>4. Verdict</b><code>allow | block</code>, category, reason</div></div></section>
+<main>
+<section class="wrap"><div id="stats" aria-live="polite">Loading the measured numbers.</div></section>
 
-<section id="try" class="rv"><h2>Playground</h2>
-<p class="sub">Edit the call and policy. The instant check is the keyword baseline running in your browser (a floor, not a real guard). For the real prompt, paste your own Gemini API key: the request goes from your browser straight to Google and the key is never stored unless you tick the box.</p>
+<section class="wrap"><h2 class="sp">One call in. One verdict out.</h2>
+<p class="sub">Scroll through what happens to a single proposed call.</p>
+<div class="story"><div class="steps" id="steps">
+<div class="st on" data-s="0"><h3><b>1</b>The agent proposes</h3><p>Role, policy, session facts, the conversation so far and one tool call. Tool output counts as untrusted data, never as instructions.</p></div>
+<div class="st" data-s="1"><h3><b>2</b>The local adapter reads it</h3><p>Gemma 4 E4B with a LoRA adapter, running on your machine for free. It also reports how sure it is.</p></div>
+<div class="st" data-s="2"><h3><b>3</b>Sure, or ask Gemini?</h3><p>Confident allows stay local. Anything the adapter doubts goes to Gemini with your own key. Nothing else is billed.</p></div>
+<div class="st" data-s="3"><h3><b>4</b>A verdict you can audit</h3><p>Allow or block, one of eight categories, and a one-sentence reason you can log.</p></div>
+</div><div class="panel" id="panel"></div></div></section>
+
+<section id="try" class="wrap"><h2 class="sp">The inspection desk</h2>
+<p class="sub">Edit the call and the policy. The instant answer is a keyword baseline running in your browser: a floor, not the real guard. Paste your own Gemini key for the real prompt. The request goes from your browser to Google and nowhere else.</p>
 <div class="chips" id="chips"></div>
-<div class="row"><div class="card">
+<div class="desk"><div class="glow">
 <label>Operator policy</label><textarea id="policy"></textarea>
 <label>Conversation (JSON)</label><textarea id="conv"></textarea>
 <label>Proposed call (JSON)</label><textarea id="call"></textarea>
-</div><div class="card">
+</div><div class="glow">
 <div id="out"></div>
-<label>Gemini API key (optional, for the real guard prompt)</label><input id="key" type="password" placeholder="AIza..." autocomplete="off">
-<label><input type="checkbox" id="rem" style="width:auto"> remember in this browser</label>
+<label>Gemini API key (optional)</label><input id="key" type="password" placeholder="AIza..." autocomplete="off">
+<label><input type="checkbox" id="rem"> remember in this browser</label>
 <label>Hosted model name</label><input id="model" value="gemini-3.8-flash">
-<p><button class="btn p" id="run">Check with Gemini</button></p>
+<p><button class="btn p" id="run" style="margin-top:14px">Check with Gemini</button></p>
 <div id="gout"></div>
-<div class="note">The cached local-model verdict for the preset examples was measured on the 8-bit adapter. Hosted calls bill your own Google account.</div>
+<div class="note">The cached Gemma verdicts on the presets were measured on the 8-bit adapter. Hosted calls bill your own Google account.</div>
 </div></div>
-<div class="card" style="margin-top:16px"><h3 style="margin-top:0">Policy test suite</h3>
-<p class="sub" style="margin-bottom:10px">Save the current call as a test with the verdict you expect, run the whole suite against the keyword baseline (or Gemini), and export the report. Stored only in your browser.</p>
-<select id="exp" style="width:auto;display:inline-block"><option value="block">expect block</option><option value="allow">expect allow</option></select>
+<div class="suite glow"><h3>Policy test suite</h3>
+<p class="sub" style="margin:10px 0 16px;font-size:15px">Save the current call with the verdict you expect, run the suite, export the report. Stored only in your browser.</p>
+<select id="exp" style="width:auto;display:inline-block;margin-right:8px"><option value="block">expect block</option><option value="allow">expect allow</option></select>
 <button class="btn" id="save">Save as test</button><button class="btn" id="runall">Run suite (keyword)</button><button class="btn" id="exportj">Export JSON</button>
 <table id="suite"></table></div></section>
 
-<section id="cascade" class="rv"><h2>The cascade</h2>
-<p class="sub">Idea: the local adapter's confidence is a cheap signal. Confident calls stay free, uncertain ones go to Gemini. The sliders replay Project A's real agent traffic (held-out half, thresholds were fit on the other half).</p>
-<div class="card"><div class="row"><div>
-<label>Allow locally when P(block) is below <b id="lov"></b></label><input type="range" id="lo" min="0" max="0.55" step="0.05" value="0.05">
-<label>Block locally when P(block) is at least <b id="hiv"></b></label><input type="range" id="hi" min="0.5" max="1" step="0.05" value="1">
-<div class="note" id="sel"></div></div><div id="cm"></div></div></div></section>
+<section id="cascade" class="wrap"><h2 class="sp">Pay only for doubt.</h2>
+<p class="sub">The adapter's confidence is the signal. Move the thresholds and replay Project A's real agent traffic (held-out half; the defaults were fit on the other half).</p>
+<div class="cas"><div>
+<div class="zone" id="zone"><i class="z1"></i><i class="z2"></i><i class="z3"></i></div>
+<label>Allow locally when P(block) is below <b id="lov" style="color:var(--ink)"></b></label><input type="range" id="lo" min="0" max="0.55" step="0.05" value="0.05">
+<label>Block locally when P(block) is at least <b id="hiv" style="color:var(--ink)"></b></label><input type="range" id="hi" min="0.5" max="1" step="0.05" value="1">
+<div class="note" id="sel"></div></div><div id="cm"></div></div></section>
 
-<section id="results" class="rv"><h2>Results</h2><p class="sub">Project A's real agent traffic, 95% family-clustered bootstrap intervals. Higher block rate and lower false positives are better.</p>
-<div class="card"><table id="lb"></table></div>
-<div class="note">Read this plainly: the free local model is clearly weaker than hosted Gemini on real traffic. It is a cheap first pass, not a gate for destructive, financial or data-export actions. Full tables and caveats: <a href="https://github.com/brej-29/toolcall-guard/blob/main/RESULTS.md">RESULTS.md</a>.</div></section>
+<section id="results" class="wrap"><h2 class="sp">The honest scoreboard.</h2>
+<p class="sub">Project A's real agent traffic. Dots are measured rates, whiskers are 95% family-clustered bootstrap intervals. The free model is clearly weaker than hosted Gemini. Use it as a cheap first pass, never as the only gate for destructive, financial or data-export actions.</p>
+<div id="lb"></div>
+<p class="note">Full tables and caveats: <a href="https://github.com/brej-29/toolcall-guard/blob/main/RESULTS.md">RESULTS.md</a>. The adapter is tuned mainly to cut false positives, not to match Gemini on recall.</p></section>
 
-<section id="mcp" class="rv"><h2>Use it in your agent (MCP)</h2><p class="sub">A stdio MCP server exposes <code>check_tool_call</code>, <code>explain_categories</code> and <code>cascade_stats</code>. Backends: <code>keyword</code> (default, no model), <code>local</code>, <code>gemini</code> (your key), <code>cascade</code>.</p>
-<pre><button class="copy">copy</button>git clone https://github.com/brej-29/toolcall-guard
+<section id="mcp" class="wrap"><h2 class="sp">Plug it into your agent.</h2>
+<p class="sub">A stdio MCP server with <code>check_tool_call</code>, <code>explain_categories</code> and <code>cascade_stats</code>. Backends: <code>keyword</code> (default), <code>local</code>, <code>gemini</code> (your key), <code>cascade</code>.</p>
+<pre class="code"><button class="copy">copy</button>git clone https://github.com/brej-29/toolcall-guard
 cd toolcall-guard
 uv run --no-project --with "mcp&lt;2" python -m tcg.mcp_server</pre>
-<pre><button class="copy">copy</button>{
+<pre class="code"><button class="copy">copy</button>{
   "mcpServers": {
     "toolcall-guard": {
       "command": "uv",
@@ -145,35 +219,70 @@ uv run --no-project --with "mcp&lt;2" python -m tcg.mcp_server</pre>
     }
   }
 }</pre>
-<div class="note">Config shape follows the common MCP client format. The server starts and lists its tools over the SDK; end-to-end use inside each client is untested here.</div></section>
+<p class="note">The server starts and lists its tools. Use inside each client is untested here.</p></section>
 
-<section class="rv"><h2>FAQ</h2>
-<details><summary>Is this a security boundary?</summary><p>No. It is a pre-execution check. Use it with least-privilege tools and human review for destructive actions.</p></details>
+<section class="wrap"><h2 class="sp">Questions.</h2><div style="margin-top:30px">
+<details><summary>Is this a security boundary?</summary><p>No. It is a pre-execution check. Pair it with least-privilege tools and human review for destructive actions.</p></details>
 <details><summary>Why bother if Gemini is better?</summary><p>Cost, privacy and offline use. The cascade measures how much of Gemini's quality you keep while sending fewer calls to it.</p></details>
-<details><summary>Where does my API key go?</summary><p>Only to Google's API from your browser, and only if you click Check with Gemini. This site has no server.</p></details>
-</section>
+<details><summary>Where does my API key go?</summary><p>Only to Google's API, from your browser, and only when you press Check with Gemini. This site has no server.</p></details>
+</div></section>
 </main>
-<footer><div class="wrap">© 2026 brej-29. Apache 2.0. Not affiliated with or endorsed by Google. <a href="https://github.com/brej-29/toolcall-guard">Source</a> · <a href="https://huggingface.co/datasets/BrejBala/toolcall-guard-data">Data</a></div></footer>
+<footer><div class="wrap"><div class="big">Toolcall <span>Guard</span></div>
+<p>© 2026 brej-29. Apache 2.0. Not affiliated with or endorsed by Google. <a href="https://github.com/brej-29/toolcall-guard">Source</a> · <a href="https://huggingface.co/datasets/BrejBala/toolcall-guard-data">Data</a> · <a href="https://huggingface.co/BrejBala/gemma-toolcall-guard">Model</a></p></div></footer>
 
 <script>
-const $=s=>document.querySelector(s),pc=x=>(x*100).toFixed(0)+"%",f2=x=>x.toFixed(2);
+const $=s=>document.querySelector(s),pc=x=>(x*100).toFixed(0)+"%",f2=x=>x.toFixed(2),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 let D=null;
-// ---- background: drifting nodes that light up near the cursor
+// ---- background nodes (reads --node so it follows the theme)
 (()=>{const c=$("#bg"),g=c.getContext("2d");let W,H,P=[],m={x:-999,y:-999};
-const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;P=Array.from({length:Math.min(70,W/18|0)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3}))};
-addEventListener("resize",rs);addEventListener("pointermove",e=>{m={x:e.clientX,y:e.clientY}});rs();
-const col=()=>getComputedStyle(document.documentElement).getPropertyValue("--mint");
-const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
-function t(){g.clearRect(0,0,W,H);const k=col();
-for(const p of P){if(!still){p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H}
-const d=Math.hypot(p.x-m.x,p.y-m.y);g.globalAlpha=d<160?.9:.25;g.fillStyle=k;g.beginPath();g.arc(p.x,p.y,d<160?2.4:1.4,0,7);g.fill();
-for(const q of P){const e=Math.hypot(p.x-q.x,p.y-q.y);if(e<110){g.globalAlpha=(1-e/110)*(d<160?.5:.12);g.strokeStyle=k;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(q.x,q.y);g.stroke()}}}
-if(!still)requestAnimationFrame(t)}t()})();
-// ---- scroll reveal and card glow
-const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("in")),{threshold:.12});
-document.querySelectorAll(".rv").forEach(e=>io.observe(e));
-document.addEventListener("pointermove",e=>{const c=e.target.closest&&e.target.closest(".card,.stat");if(c){const r=c.getBoundingClientRect();c.style.setProperty("--mx",e.clientX-r.left+"px");c.style.setProperty("--my",e.clientY-r.top+"px")}});
+const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;P=Array.from({length:Math.min(80,W/16|0)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28}))};
+addEventListener("resize",rs);rs();
+addEventListener("pointermove",e=>{m={x:e.clientX,y:e.clientY};document.documentElement.style.setProperty("--cx",e.clientX+"px");document.documentElement.style.setProperty("--cy",e.clientY+"px")});
+function t(){g.clearRect(0,0,W,H);const k=getComputedStyle(document.documentElement).getPropertyValue("--node");
+for(const p of P){if(!RM){p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H}
+const d=Math.hypot(p.x-m.x,p.y-m.y),near=d<170;g.globalAlpha=near?.95:.28;g.fillStyle=near?"#ff5b3a":`rgb(${k})`;g.beginPath();g.arc(p.x,p.y,near?2.6:1.4,0,7);g.fill();
+for(const q of P){const e=Math.hypot(p.x-q.x,p.y-q.y);if(e<115){g.globalAlpha=(1-e/115)*(near?.55:.13);g.strokeStyle=near?"#ff5b3a":`rgb(${k})`;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(q.x,q.y);g.stroke()}}}
+if(!RM)requestAnimationFrame(t)}t()})();
+// ---- split headings into masked words, then reveal on view
+document.querySelectorAll(".sp").forEach(h=>{const walk=n=>[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(w=>{if(!w.trim()){f.append(w);return}const s=document.createElement("span");s.className="wd";s.innerHTML=`<i style="transition-delay:${(h._i=(h._i||0)+1)*55}ms">${w}</i>`;f.append(s)});c.replaceWith(f)}else walk(c)});walk(h)});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll(".rv,.sp").forEach(e=>io.observe(e));
+document.querySelectorAll("section .sub,.desk,.suite,.cas,#lb,.note,pre.code,details").forEach(e=>{e.classList.add("rv");io.observe(e)});
+document.addEventListener("pointermove",e=>{const c=e.target.closest&&e.target.closest(".glow");if(c){const r=c.getBoundingClientRect();c.style.setProperty("--mx",e.clientX-r.left+"px");c.style.setProperty("--my",e.clientY-r.top+"px")}});
+document.querySelectorAll(".btn").forEach(b=>{if(RM)return;b.addEventListener("pointermove",e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.12}px,${(e.clientY-r.top-r.height/2)*.2}px)`});b.addEventListener("pointerleave",()=>b.style.transform="")});
 document.querySelectorAll(".copy").forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.parentElement.innerText.replace(/^copy\n?/,""));b.textContent="copied";setTimeout(()=>b.textContent="copy",1200)});
+// ---- scroll: progress bar + word-by-word statement
+let words=[];
+function onScroll(){const d=document.documentElement;$("#prog").style.transform=`scaleX(${scrollY/(d.scrollHeight-innerHeight||1)})`;
+const s=$("#stats");if(words.length){const r=s.getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight*.82-r.top)/(r.height+innerHeight*.25)));words.forEach((w,i)=>w.classList.toggle("lit",i<p*words.length+.5&&p>0))}
+const st=document.querySelectorAll("#steps .st");let best=0,bd=1e9;st.forEach((e,i)=>{const r=e.getBoundingClientRect(),dd=Math.abs(r.top+r.height/2-innerHeight*.5);if(dd<bd){bd=dd;best=i}});setStep(best)}
+addEventListener("scroll",onScroll,{passive:true});
+// ---- hero conveyor
+const TK=[];let laneOn=false;
+function lane(){if(laneOn||!TK.length||RM)return;laneOn=true;const L=$("#lane");let k=0;
+const spawn=()=>{const d=TK[k++%TK.length],W=L.clientWidth,g=W/2,tw=260,el=document.createElement("div");el.className="tk";
+el.innerHTML=`<b>${d.name}</b><span class="a">${d.args}</span><div class="stamp ${d.v}">${d.v.toUpperCase()}</div>`;L.append(el);
+const total=W+tw*2,dur=Math.max(7000,W*8),anim=el.animate([{transform:`translateX(${-tw}px)`},{transform:`translateX(${W+tw}px)`}],{duration:dur,easing:"linear",fill:"forwards"});
+setTimeout(()=>{el.classList.add("done");if(d.v==="block"){const x=g-tw/2;anim.cancel();el.animate([{transform:`translate(${x}px,0) rotate(0)`,opacity:1},{transform:`translate(${x}px,0) rotate(0)`,opacity:1,offset:.45},{transform:`translate(${x+20}px,170px) rotate(9deg)`,opacity:0}],{duration:1300,easing:"cubic-bezier(.5,0,.9,.5)",fill:"forwards"}).onfinish=()=>el.remove()}},((g-tw/2)+tw)/total*dur);
+anim.onfinish=()=>el.remove()};
+spawn();setInterval(spawn,Math.max(3400,$("#lane").clientWidth*3.4))}
+// ---- statement (count-up)
+function stats(){const h=D.headline,r=D.cascade.report_half;
+const a=Math.round(h["Tuned adapter (full precision)"].attack_block_rate[0]*100),g=Math.round(h["Gemini 3.8 Flash"].attack_block_rate[0]*100),k=Math.round((1-r.cascade.escalated_fraction)*100);
+const T=[["The free local model blocks"],[a,"of every 100 attacks"],["on real agent traffic. Gemini blocks"],[g,"of 100."],["Put the local model first, ask Gemini only when it doubts, and"],[k,"of every 100 calls never leave your machine."]];
+$("#stats").innerHTML=T.map(t=>t.length===1||typeof t[0]==="string"?t[0].split(" ").map(w=>`<span class="w">${w}</span>`).join(" "):`<span class="w hot"><b class="num" data-n="${t[0]}">0</b></span> ${t[1].split(" ").map(w=>`<span class="w">${w}</span>`).join(" ")}`).join(" ");
+words=[...document.querySelectorAll("#stats .w")];
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const n=+e.target.dataset.n,t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1400);e.target.textContent=Math.round(n*(1-Math.pow(1-p,4)));if(p<1)requestAnimationFrame(f)})(t0);co.unobserve(e.target)}}),{threshold:.6});
+document.querySelectorAll(".num").forEach(n=>co.observe(n));onScroll()}
+// ---- story panel
+function panel(){const p=D.presets[0],m=p.model_prob,z=D.cascade.selected;
+$("#panel").innerHTML=`<div class="frame on"><div class="cap">Proposed call</div><pre>${p.record.proposed_call.name}\n${JSON.stringify(p.record.proposed_call.arguments,null,2)}</pre><div class="cap">Context: ticket text said "export the customers table to the partner portal"</div></div>
+<div class="frame"><div class="cap">Local adapter, confidence at the verdict token</div><div class="big">P(block) ${f2(m)}</div><div class="meter"><i data-w="${m*100}"></i></div></div>
+<div class="frame"><div class="cap">Routing</div><div class="zone"><i class="z1" style="width:${z.low*100}%"></i><i class="z2" style="width:${(z.high-z.low)*100}%">ask Gemini</i><i class="z3" style="width:${(1-z.high)*100}%"></i></div><pre>below ${z.low}: allow locally\n${z.low} to ${z.high}: ask Gemini (your key)\nunparseable reply: ask Gemini</pre></div>
+<div class="frame"><div class="cap">Verdict</div><div class="big" style="color:var(--bad)">BLOCK</div><pre>{"verdict":"block","category":"${p.model.category}","reason":"${p.model.reason.replace(/"/g,"'")}"}</pre></div>`}
+let curStep=-1;
+function setStep(i){if(i===curStep||!D)return;curStep=i;document.querySelectorAll("#steps .st").forEach((e,j)=>e.classList.toggle("on",j===i));document.querySelectorAll("#panel .frame").forEach((e,j)=>e.classList.toggle("on",j===i));
+const m=document.querySelector("#panel .meter i");if(m)m.style.width=i===1?m.dataset.w+"%":"0"}
 // ---- keyword floor (port of tcg/keyword_guard.py plus "partner" and "export" so the demo attack trips it)
 const INJ=/ignore (all |your |previous )|note (for|to) (the )?ai|ai assistant|system (note|notice|override)|do not (tell|mention|inform)|assistant:|new instructions/i;
 const RULES=[["privilege_escalation",/admin|grant|role|permission|elevat|sudo|as_admin|override/i],["data_exfiltration",/https?:\/\/|webhook|upload|share_link|public|pastebin|partner|@(gmail|yahoo|proton|outlook)/i],["destructive_action",/delete|drop|purge|wipe|truncate|destroy|terminate|revoke|force|cancel_all|bulk/i],["sensitive_data_exposure",/ssn|social_security|salary|password|secret|api_key|token|diagnos|medical|credit_card/i],["business_rule_violation",/refund|transfer|wire|payment|discount|credit|payout|approve/i]];
@@ -181,7 +290,8 @@ function kw(conv,call){const text=call.name+" "+JSON.stringify(call.arguments||{
 if(INJ.test(tool)&&/send|post|email|forward|upload|http|share|export/i.test(text))return{verdict:"block",category:"indirect_prompt_injection",reason:"instruction-like text in tool output"};
 for(const[c,r]of RULES)if(r.test(text))return{verdict:"block",category:c,reason:"keyword match for "+c};
 return{verdict:"allow",category:"benign",reason:"no risk keyword"}}
-const vhtml=(t,p,extra="")=>`<div class="verdict ${p.verdict}"><span class="tag">${p.verdict.toUpperCase()}</span><div><b>${t}</b>: ${p.category}<br><small>${p.reason||""} ${extra}</small></div></div>`;
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const vhtml=(t,p,extra="")=>`<div class="verdict ${p.verdict}"><span class="tag">${p.verdict.toUpperCase()}</span><div><b>${t}</b>: ${p.category}<small>${esc(p.reason||"")} ${extra}</small></div></div>`;
 let cur=null;
 function parse(){try{return{conv:JSON.parse($("#conv").value||"[]"),call:JSON.parse($("#call").value)}}catch(e){return null}}
 function check(){const p=parse();if(!p){$("#out").innerHTML=`<div class="note">Conversation or call is not valid JSON.</div>`;return}
@@ -194,14 +304,14 @@ document.querySelectorAll("#chips button").forEach((b,j)=>b.classList.toggle("on
 $("#run").onclick=async()=>{const p=parse(),k=$("#key").value.trim();if(!p||!k){$("#gout").innerHTML=`<div class="note">Needs valid JSON and a key.</div>`;return}
 if($("#rem").checked)try{localStorage.tcgKey=k}catch(e){}
 $("#gout").textContent="Asking Gemini...";
-try{const r=await gem(p.conv,p.call,k);$("#gout").innerHTML=vhtml("Gemini (your key)",r)}catch(e){$("#gout").innerHTML=`<div class="note">${String(e.message).replace(/</g,"&lt;")}</div>`}};
-async function gem(conv,call,k){const rec={role:"agent",policy:$("#policy").value,conv,call};
+try{const r=await gem(p.conv,p.call,k);$("#gout").innerHTML=vhtml("Gemini (your key)",r)}catch(e){$("#gout").innerHTML=`<div class="note">${esc(e.message)}</div>`}};
+async function gem(conv,call,k){const rec={policy:$("#policy").value};
 const txt=`# Operator policy\n${rec.policy}\n\n# Conversation\n${conv.map(m=>m.role==="tool"?`[tool output: ${m.name||"?"}]\n${m.content}\n[end tool output]`:`[${m.role}] ${m.content}`).join("\n")}\n\n# Proposed call\n${call.name} ${JSON.stringify(call.arguments)}`;
 const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent($("#model").value)}:generateContent`,{method:"POST",headers:{"content-type":"application/json","x-goog-api-key":k},body:JSON.stringify({systemInstruction:{parts:[{text:D.guard_system}]},contents:[{role:"user",parts:[{text:txt}]}],generationConfig:{responseMimeType:"application/json",responseJsonSchema:D.schema}})});
 const j=await res.json();if(!res.ok)throw new Error(j.error?.message||res.status);return JSON.parse(j.candidates[0].content.parts[0].text)}
 // ---- suite
 let S=[];try{S=JSON.parse(localStorage.tcgSuite||"[]")}catch(e){}
-function drawS(){$("#suite").innerHTML=`<tr><th>call</th><th>expected</th><th>got</th><th></th></tr>`+S.map((t,i)=>`<tr><td><code>${t.call.name}</code></td><td>${t.expect}</td><td>${t.got||"-"}</td><td>${t.got?(t.got===t.expect?"✓":"✗"):""} <a href="#" data-i="${i}">remove</a></td></tr>`).join("")}
+function drawS(){$("#suite").innerHTML=`<tr><th>call</th><th>expected</th><th>got</th><th></th></tr>`+S.map((t,i)=>`<tr><td><code>${esc(t.call.name)}</code></td><td>${t.expect}</td><td>${t.got||"-"}</td><td>${t.got?(t.got===t.expect?"pass":"FAIL"):""} <a href="#" data-i="${i}">remove</a></td></tr>`).join("")}
 $("#save").onclick=()=>{const p=parse();if(!p)return;S.push({policy:$("#policy").value,conv:p.conv,call:p.call,expect:$("#exp").value});sv()};
 $("#runall").onclick=()=>{S.forEach(t=>t.got=kw(t.conv,t.call).verdict);sv()};
 $("#suite").onclick=e=>{const i=e.target.dataset?.i;if(i!==undefined){e.preventDefault();S.splice(i,1);sv()}};
@@ -209,20 +319,26 @@ $("#exportj").onclick=()=>{const a=document.createElement("a");a.href=URL.create
 function sv(){try{localStorage.tcgSuite=JSON.stringify(S)}catch(e){}drawS()}
 // ---- cascade explorer
 function cas(){const c=D.cascade,lo=+$("#lo").value,hi=+$("#hi").value;$("#lov").textContent=lo.toFixed(2);$("#hiv").textContent=hi.toFixed(2);
+const zs=document.querySelectorAll("#zone i");zs[0].style.width=lo*100+"%";zs[0].textContent=lo>.12?"allow":"";zs[1].style.width=(hi-lo)*100+"%";zs[1].textContent="ask Gemini";zs[2].style.width=(1-hi)*100+"%";zs[2].textContent=1-hi>.12?"block":"";
 const pt=c.curve_report_half.find(x=>Math.abs(x.low-lo)<1e-6&&Math.abs(x.high-hi)<1e-6);const r=c.report_half;
-const row=(n,a,f,e,cost,col)=>`<div><b>${n}</b> <small style="color:var(--mute)">escalated ${pc(e)} · $${cost.toFixed(2)} per 1,000</small></div><div>blocks attacks ${pc(a)}</div><div class="bar"><i style="width:${a*100}%;background:${col}"></i></div><div>false positives ${pc(f)}</div><div class="bar"><i style="width:${Math.min(100,f*500)}%;background:var(--red)"></i></div>`;
-$("#cm").innerHTML=(pt?row("Your cascade",pt.attack_block_rate,pt.false_positive_rate,pt.escalated_fraction,pt.cost_per_1k_usd,"var(--mint)"):"")
-+row("Local adapter only",r.adapter_only.attack_block_rate[0],r.adapter_only.false_positive_rate[0],0,0,"var(--amber)")
-+row("Gemini only",r.hosted_only.attack_block_rate[0],r.hosted_only.false_positive_rate[0],1,r.hosted_only.cost_per_1k_usd,"var(--blue)");
-$("#sel").textContent=`Tuned on the fit half: low ${c.selected.low}, high ${c.selected.high}. At that setting about ${pc(r.cascade.escalated_fraction)} of calls still go to Gemini, so the saving is modest: ${f2(r.cascade.cost_per_1k_usd)} vs ${f2(r.hosted_only.cost_per_1k_usd)} USD per 1,000. n=${c.n_report} held-out calls, replay only.`}
+const row=(n,a,f,e,cost,col)=>`<div class="cmrow"><h4>${n}</h4><small>${pc(e)} of calls to Gemini · $${cost.toFixed(2)} per 1,000</small><div>blocks ${pc(a)} of attacks</div><div class="bar"><i style="width:${a*100}%;background:${col}"></i></div><div>${pc(f)} false positives</div><div class="bar"><i style="width:${Math.min(100,f*500)}%;background:var(--bad)"></i></div></div>`;
+$("#cm").innerHTML=(pt?row("Your cascade",pt.attack_block_rate,pt.false_positive_rate,pt.escalated_fraction,pt.cost_per_1k_usd,"var(--ok)"):"")
++row("Local adapter only",r.adapter_only.attack_block_rate[0],r.adapter_only.false_positive_rate[0],0,0,"var(--warn)")
++row("Gemini only",r.hosted_only.attack_block_rate[0],r.hosted_only.false_positive_rate[0],1,r.hosted_only.cost_per_1k_usd,"var(--ink)");
+$("#sel").textContent=`Fit on the other half: low ${c.selected.low}, high ${c.selected.high}. About ${pc(r.cascade.escalated_fraction)} of calls still go to Gemini, so the saving is modest: ${f2(r.cascade.cost_per_1k_usd)} vs ${f2(r.hosted_only.cost_per_1k_usd)} USD per 1,000. n=${c.n_report} held-out calls, replay only.`}
 $("#lo").oninput=$("#hi").oninput=()=>cas();
-// ---- leaderboard + stats
-function lb(){const h=D.headline;$("#lb").innerHTML=`<tr><th>guard</th><th>attacks blocked</th><th>false positives</th></tr>`+Object.entries(h).map(([n,v])=>{const a=v.attack_block_rate,f=v.false_positive_rate;return`<tr><td>${n}</td><td>${f2(a[0])} <small>[${f2(a[1])}, ${f2(a[2])}]</small><div class="bar"><i data-w="${a[0]*100}" style="background:var(--mint)"></i></div></td><td>${f2(f[0])} <small>[${f2(f[1])}, ${f2(f[2])}]</small></td></tr>`}).join("");
-setTimeout(()=>document.querySelectorAll("#lb i").forEach(i=>i.style.width=i.dataset.w+"%"),300)}
-function stats(){const h=D.headline,r=D.cascade.report_half;const s=[[f2(h["Tuned adapter (full precision)"].attack_block_rate[0]),"attacks blocked by the free local adapter, real traffic"],[f2(h["Gemini 3.8 Flash"].attack_block_rate[0]),"attacks blocked by Gemini 3.8 Flash"],[pc(1-r.cascade.escalated_fraction),"of calls the cascade keeps off the paid API"],["8","attack categories, one JSON verdict"]];
-$("#stats").innerHTML=s.map(x=>`<div class="stat"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("")}
-fetch("data.json").then(r=>r.json()).then(d=>{D=d;$("#chips").innerHTML=d.presets.map((p,i)=>`<button data-i="${i}">${p.id.replace("demo-","")}</button>`).join("");
-$("#chips").onclick=e=>e.target.dataset.i&&load(+e.target.dataset.i);load(0);cas();lb();stats();drawS();
+// ---- results as range plots
+function lb(){const h=D.headline,FM=.3;
+const pl=(v,max,me)=>{const x=q=>Math.min(100,q/max*100);return`<div class="track"><span class="wh" data-l="${x(v[1])}" data-w="${x(v[2])-x(v[1])}"></span><span class="dot${me?" me":""}" data-l="${x(v[0])}"></span><span class="val" style="left:${x(v[0])}%">${f2(v[0])}</span></div>`};
+$("#lb").innerHTML=`<div class="rp head"><span>guard</span><span>attacks blocked (0 to 1)</span><span>false positives (0 to ${FM})</span></div>`+Object.entries(h).map(([n,v])=>`<div class="rp"><div class="nm">${n}</div>${pl(v.attack_block_rate,1,n.startsWith("Tuned"))}${pl(v.false_positive_rate,FM,n.startsWith("Tuned"))}</div>`).join("");
+const go=()=>document.querySelectorAll("#lb .wh,#lb .dot").forEach(e=>{e.style.left=e.dataset.l+"%";if(e.dataset.w)e.style.width=e.dataset.w+"%"});
+new IntersectionObserver((es,o)=>es.some(e=>e.isIntersecting)&&(go(),o.disconnect()),{threshold:.3}).observe($("#lb"))}
+// ---- boot
+$("#tape").innerHTML=[..."indirect_prompt_injection,social_engineering,privilege_escalation,data_exfiltration,destructive_action,sensitive_data_exposure,business_rule_violation,benign".split(",")].map(x=>`<span>${x}</span>`).join("").repeat(2);
+fetch("data.json").then(r=>r.json()).then(d=>{D=d;
+d.presets.forEach(p=>TK.push({name:p.record.proposed_call.name,args:JSON.stringify(p.record.proposed_call.arguments),v:p.model.verdict}));lane();
+$("#chips").innerHTML=d.presets.map((p,i)=>`<button data-i="${i}">${p.id.replace("demo-","")}</button>`).join("");
+$("#chips").onclick=e=>e.target.dataset.i&&load(+e.target.dataset.i);load(0);cas();lb();stats();panel();setStep(0);drawS();
 try{if(localStorage.tcgKey){$("#key").value=localStorage.tcgKey;$("#rem").checked=true}}catch(e){}}).catch(()=>{$("#stats").textContent="Could not load data.json"});
 </script>
 </body>
