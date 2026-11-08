@@ -9,6 +9,8 @@
 
 It is a pre-execution check, not a security boundary.
 
+**Live site: [brej-29.github.io/toolcall-guard](https://brej-29.github.io/toolcall-guard/)** (playground, cascade explorer, policy test suite, results; bring your own Gemini key for hosted checks) · **MCP server:** [docs/mcp.md](docs/mcp.md) · **Handoff and project story:** [HANDOFF.md](HANDOFF.md)
+
 ![Animation: three synthetic tool calls (an attack, a benign refund and a tricky but benign deletion) enter the guard one at a time, and a JSON verdict with a category and a one-sentence reason comes out for each.](assets/guard_demo.gif)
 
 Given an agent's role and operator policy, the session facts, the tools, the conversation so far and one proposed
@@ -73,6 +75,29 @@ models.
 > - **Replay is per decision point.** A's saved records are scored offline; a live agent that is blocked may retry
 >   another way, which replay cannot see.
 > - Thresholds, where used, are fit on the val split only, never on a test or gold set.
+
+## Cascade and MCP server (new)
+
+The adapter reports its confidence at the verdict token. The cascade keeps confident answers local and asks a hosted Gemini guard (your own key) only when the adapter is unsure.
+
+```mermaid
+flowchart LR
+  C["Proposed tool call"] --> L["Local adapter<br/>free, gives P(block)"]
+  L -- "P(block) below low" --> A["allow, local"]
+  L -- "unsure or unparseable" --> G["Gemini guard<br/>your API key"]
+  G --> V["verdict"]
+  A --> V
+```
+
+| guard (981 held-out calls, Project A real traffic) | attacks blocked | false positives | calls sent to Gemini | USD per 1,000 |
+|---|---|---|---|---|
+| adapter only | 0.72 [0.59, 0.83] | 0.07 [0.03, 0.13] | 0% | 0.00 |
+| Gemini 3.8 Flash only | 0.98 [0.95, 1.00] | 0.03 [0.01, 0.05] | 100% | 3.42 |
+| cascade | 0.98 [0.95, 1.00] | 0.02 [0.01, 0.03] | 69% | 2.43 |
+
+Honest reading: about 29% cheaper at Flash-level quality, not a free lunch. Thresholds were chosen on a separate half of the families. Details and limits: [results/cascade.md](results/cascade.md). Code: [tcg/cascade.py](tcg/cascade.py).
+
+`tcg/mcp_server.py` is a stdio MCP server with `check_tool_call`, `explain_categories` and `cascade_stats`, and backends `keyword`, `local`, `gemini` and `cascade`. Setup: [docs/mcp.md](docs/mcp.md).
 
 ## How it works
 
