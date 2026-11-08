@@ -1,0 +1,10 @@
+# Toolcall Guard
+> Free local guard model (Gemma 4 E4B + LoRA), a local-first cascade that escalates to Gemini only when unsure, and an MCP server, for checking one AI agent tool call before it runs. Answers JSON: verdict allow|block, one of 8 categories, one-sentence reason.
+
+Honest limits: the local adapter blocks 0.62 of attacks on real agent traffic (Gemini guards: 0.98). Not a security boundary.
+
+- [Site](https://brej-29.github.io/toolcall-guard/)
+- [Repository](https://github.com/brej-29/toolcall-guard)
+- [Model](https://huggingface.co/BrejBala/gemma-toolcall-guard)
+- [Dataset](https://huggingface.co/datasets/BrejBala/toolcall-guard-data)
+- [Results](https://github.com/brej-29/toolcall-guard/blob/main/RESULTS.md)

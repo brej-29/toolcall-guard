@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toolcall Guard: free pre-execution guard for AI agent tool calls</title>
+<meta name="description" content="Check an AI agent's tool call before it runs. Free local Gemma 4 LoRA guard, a cheap-first cascade that escalates to Gemini only when unsure, an MCP server, and honest benchmark results with confidence intervals.">
+<meta name="keywords" content="AI agent guardrails, tool call guard, prompt injection detection, MCP server, LLM agent security, Gemma 4, LoRA, Gemini, agent safety, pre-execution check">
+<link rel="canonical" href="https://brej-29.github.io/toolcall-guard/">
+<meta name="theme-color" content="#07090f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Toolcall Guard: free pre-execution guard for AI agent tool calls">
+<meta property="og:description" content="Free local guard model, cascade to Gemini only when unsure, MCP server, and honest results.">
+<meta property="og:url" content="https://brej-29.github.io/toolcall-guard/">
+<meta property="og:image" content="https://brej-29.github.io/toolcall-guard/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307090f'/%3E%3Cpath d='M16 5l9 4v7c0 6-4 9-9 11C11 25 7 22 7 16V9z' fill='none' stroke='%2345e0b0' stroke-width='2.4'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"SoftwareApplication","name":"Toolcall Guard","applicationCategory":"DeveloperApplication","operatingSystem":"Any","url":"https://brej-29.github.io/toolcall-guard/","codeRepository":"https://github.com/brej-29/toolcall-guard","license":"https://www.apache.org/licenses/LICENSE-2.0","author":{"@type":"Person","name":"brej-29","url":"https://github.com/brej-29"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A free local guard model and MCP server that checks one AI agent tool call before it runs and answers allow or block with a category and reason."},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What does Toolcall Guard do?","acceptedAnswer":{"@type":"Answer","text":"It reads an agent's role, policy, session facts, conversation and one proposed tool call, and answers with JSON: allow or block, one of eight categories, and a one-sentence reason."}},
+{"@type":"Question","name":"Is it a security boundary?","acceptedAnswer":{"@type":"Answer","text":"No. It is a pre-execution check. On real agent traffic the free local adapter blocks 0.62 of attacks, so do not use it as the only gate for destructive, financial or data-export actions."}},
+{"@type":"Question","name":"How do I use it with Claude, Cursor or another MCP client?","acceptedAnswer":{"@type":"Answer","text":"Run the stdio MCP server in the repository (python -m tcg.mcp_server) and call the check_tool_call tool before executing a tool. Backends: keyword, local model, Gemini with your own key, or a cascade."}}]}]}
+</script>
+<style>
+:root{--bg:#07090f;--bg2:#0d111b;--ink:#e8ecf4;--mute:#8b95ab;--line:#1c2333;--mint:#45e0b0;--red:#ff6b7a;--amber:#ffc65c;--blue:#6aa8ff;--r:16px}
+@media (prefers-color-scheme:light){:root{--bg:#f6f7fb;--bg2:#fff;--ink:#10141f;--mute:#586078;--line:#dfe3ee;--mint:#0a9b72;--red:#d6334a;--amber:#b9780a;--blue:#2f6fe0}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 ui-sans-serif,system-ui,"Segoe UI",Inter,sans-serif;overflow-x:hidden}
+canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,header,footer{position:relative;z-index:1}
+a{color:var(--mint)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:5;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:18px;align-items:center;height:56px}
+nav b{margin-right:auto;letter-spacing:.02em}nav a{color:var(--mute);text-decoration:none;font-size:14px}nav a:hover{color:var(--ink)}
+.hero{padding:96px 0 56px;text-align:center}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:4px 14px;font-size:13px;color:var(--mute);background:var(--bg2)}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.05;margin:20px 0 16px;letter-spacing:-.03em}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--mint),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:680px;margin:0 auto 28px;color:var(--mute);font-size:18px}
+.btn{display:inline-block;padding:11px 20px;border-radius:12px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;margin:4px;background:var(--bg2);transition:.2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--mint)}.btn.p{background:var(--mint);color:#04120c;border-color:var(--mint)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:48px}
+.stat{padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg2)}
+.stat b{display:block;font-size:34px;letter-spacing:-.02em}.stat span{color:var(--mute);font-size:13px}
+section{padding:72px 0}
+h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin:0 0 8px}
+.sub{color:var(--mute);margin:0 0 28px;max-width:720px}
+.card{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:22px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--mint) 14%,transparent),transparent 60%);opacity:0;transition:.3s;pointer-events:none}
+.card:hover::before{opacity:1}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 150px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--bg2);font-size:14px}
+.node b{display:block;color:var(--mint)}
+.arrow{align-self:center;color:var(--mute);animation:nudge 1.6s infinite}
+@keyframes nudge{50%{transform:translateX(5px)}}
+label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
+textarea,input,select{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:13px ui-monospace,Consolas,monospace}
+textarea{min-height:92px;resize:vertical}
+.row{display:grid;gap:16px;grid-template-columns:1fr 1fr}@media(max-width:800px){.row{grid-template-columns:1fr}}
+.chips button{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:6px 14px;margin:0 6px 6px 0;cursor:pointer}
+.chips button.on{border-color:var(--mint);color:var(--mint)}
+.verdict{display:flex;gap:12px;align-items:center;margin:10px 0;padding:14px;border-radius:12px;border:1px solid var(--line)}
+.verdict .tag{font-weight:800;padding:4px 12px;border-radius:8px}
+.allow .tag{background:color-mix(in srgb,var(--mint) 22%,transparent);color:var(--mint)}.block .tag{background:color-mix(in srgb,var(--red) 22%,transparent);color:var(--red)}
+.verdict small{color:var(--mute)}
+.bar{height:12px;border-radius:6px;background:var(--line);overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;width:0;border-radius:6px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--mute);font-weight:600}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto;font-size:13px;position:relative}
+.copy{position:absolute;right:8px;top:8px;font-size:12px;padding:3px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);cursor:pointer}
+input[type=range]{padding:0;accent-color:var(--mint)}
+.note{font-size:13px;color:var(--mute);border-left:3px solid var(--amber);padding:2px 12px;margin:14px 0}
+details{border-bottom:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:600}
+footer{padding:40px 0 60px;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<nav><div class="wrap"><b>Toolcall Guard</b><a href="#try">Try it</a><a href="#cascade">Cascade</a><a href="#results">Results</a><a href="#mcp">MCP</a><a href="https://github.com/brej-29/toolcall-guard">GitHub</a></div></nav>
+<header class="hero wrap">
+  <span class="pill">Open source · Apache 2.0 · bring your own key for hosted models</span>
+  <h1>Check every agent tool call <em>before</em> it runs.</h1>
+  <p class="lead">A free local guard, a cheap-first cascade that pays for Gemini only when the local model is unsure, and an MCP server you can drop into your agent. With honest numbers and confidence intervals.</p>
+  <a class="btn p" href="#try">Try the playground</a><a class="btn" href="#mcp">Add to your agent (MCP)</a><a class="btn" href="https://huggingface.co/BrejBala/gemma-toolcall-guard">Model on Hugging Face</a>
+  <div class="stats" id="stats"></div>
+</header>
+<main class="wrap">
+
+<section class="rv"><h2>How it works</h2><p class="sub">One proposed tool call in, one JSON verdict out. The cascade decides who answers.</p>
+<div class="flow">
+<div class="node"><b>1. Agent proposes</b>role, policy, session facts, conversation, one tool call</div><span class="arrow">→</span>
+<div class="node"><b>2. Local adapter</b>Gemma 4 E4B + LoRA, free, reports its confidence</div><span class="arrow">→</span>
+<div class="node"><b>3. Confident?</b>yes: answer locally. no: ask Gemini with your key</div><span class="arrow">→</span>
+<div class="node"><b>4. Verdict</b><code>allow | block</code>, category, reason</div></div></section>
+
+<section id="try" class="rv"><h2>Playground</h2>
+<p class="sub">Edit the call and policy. The instant check is the keyword baseline running in your browser (a floor, not a real guard). For the real prompt, paste your own Gemini API key: the request goes from your browser straight to Google and the key is never stored unless you tick the box.</p>
+<div class="chips" id="chips"></div>
+<div class="row"><div class="card">
+<label>Operator policy</label><textarea id="policy"></textarea>
+<label>Conversation (JSON)</label><textarea id="conv"></textarea>
+<label>Proposed call (JSON)</label><textarea id="call"></textarea>
+</div><div class="card">
+<div id="out"></div>
+<label>Gemini API key (optional, for the real guard prompt)</label><input id="key" type="password" placeholder="AIza..." autocomplete="off">
+<label><input type="checkbox" id="rem" style="width:auto"> remember in this browser</label>
+<label>Hosted model name</label><input id="model" value="gemini-3.8-flash">
+<p><button class="btn p" id="run">Check with Gemini</button></p>
+<div id="gout"></div>
+<div class="note">The cached local-model verdict for the preset examples was measured on the 8-bit adapter. Hosted calls bill your own Google account.</div>
+</div></div>
+<div class="card" style="margin-top:16px"><h3 style="margin-top:0">Policy test suite</h3>
+<p class="sub" style="margin-bottom:10px">Save the current call as a test with the verdict you expect, run the whole suite against the keyword baseline (or Gemini), and export the report. Stored only in your browser.</p>
+<select id="exp" style="width:auto;display:inline-block"><option value="block">expect block</option><option value="allow">expect allow</option></select>
+<button class="btn" id="save">Save as test</button><button class="btn" id="runall">Run suite (keyword)</button><button class="btn" id="exportj">Export JSON</button>
+<table id="suite"></table></div></section>
+
+<section id="cascade" class="rv"><h2>The cascade</h2>
+<p class="sub">Idea: the local adapter's confidence is a cheap signal. Confident calls stay free, uncertain ones go to Gemini. The sliders replay Project A's real agent traffic (held-out half, thresholds were fit on the other half).</p>
+<div class="card"><div class="row"><div>
+<label>Allow locally when P(block) is below <b id="lov"></b></label><input type="range" id="lo" min="0" max="0.55" step="0.05" value="0.05">
+<label>Block locally when P(block) is at least <b id="hiv"></b></label><input type="range" id="hi" min="0.5" max="1" step="0.05" value="1">
+<div class="note" id="sel"></div></div><div id="cm"></div></div></div></section>
+
+<section id="results" class="rv"><h2>Results</h2><p class="sub">Project A's real agent traffic, 95% family-clustered bootstrap intervals. Higher block rate and lower false positives are better.</p>
+<div class="card"><table id="lb"></table></div>
+<div class="note">Read this plainly: the free local model is clearly weaker than hosted Gemini on real traffic. It is a cheap first pass, not a gate for destructive, financial or data-export actions. Full tables and caveats: <a href="https://github.com/brej-29/toolcall-guard/blob/main/RESULTS.md">RESULTS.md</a>.</div></section>
+
+<section id="mcp" class="rv"><h2>Use it in your agent (MCP)</h2><p class="sub">A stdio MCP server exposes <code>check_tool_call</code>, <code>explain_categories</code> and <code>cascade_stats</code>. Backends: <code>keyword</code> (default, no model), <code>local</code>, <code>gemini</code> (your key), <code>cascade</code>.</p>
+<pre><button class="copy">copy</button>git clone https://github.com/brej-29/toolcall-guard
+cd toolcall-guard
+uv run --no-project --with "mcp&lt;2" python -m tcg.mcp_server</pre>
+<pre><button class="copy">copy</button>{
+  "mcpServers": {
+    "toolcall-guard": {
+      "command": "uv",
+      "args": ["run", "--no-project", "--with", "mcp&lt;2", "python", "-m", "tcg.mcp_server"],
+      "cwd": "/path/to/toolcall-guard",
+      "env": { "GUARD_BACKEND": "keyword" }
+    }
+  }
+}</pre>
+<div class="note">Config shape follows the common MCP client format. The server starts and lists its tools over the SDK; end-to-end use inside each client is untested here.</div></section>
+
+<section class="rv"><h2>FAQ</h2>
+<details><summary>Is this a security boundary?</summary><p>No. It is a pre-execution check. Use it with least-privilege tools and human review for destructive actions.</p></details>
+<details><summary>Why bother if Gemini is better?</summary><p>Cost, privacy and offline use. The cascade measures how much of Gemini's quality you keep while sending fewer calls to it.</p></details>
+<details><summary>Where does my API key go?</summary><p>Only to Google's API from your browser, and only if you click Check with Gemini. This site has no server.</p></details>
+</section>
+</main>
+<footer><div class="wrap">© 2026 brej-29. Apache 2.0. Not affiliated with or endorsed by Google. <a href="https://github.com/brej-29/toolcall-guard">Source</a> · <a href="https://huggingface.co/datasets/BrejBala/toolcall-guard-data">Data</a></div></footer>
+
+<script>
+const $=s=>document.querySelector(s),pc=x=>(x*100).toFixed(0)+"%",f2=x=>x.toFixed(2);
+let D=null;
+// ---- background: drifting nodes that light up near the cursor
+(()=>{const c=$("#bg"),g=c.getContext("2d");let W,H,P=[],m={x:-999,y:-999};
+const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;P=Array.from({length:Math.min(70,W/18|0)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3}))};
+addEventListener("resize",rs);addEventListener("pointermove",e=>{m={x:e.clientX,y:e.clientY}});rs();
+const col=()=>getComputedStyle(document.documentElement).getPropertyValue("--mint");
+const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function t(){g.clearRect(0,0,W,H);const k=col();
+for(const p of P){if(!still){p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H}
+const d=Math.hypot(p.x-m.x,p.y-m.y);g.globalAlpha=d<160?.9:.25;g.fillStyle=k;g.beginPath();g.arc(p.x,p.y,d<160?2.4:1.4,0,7);g.fill();
+for(const q of P){const e=Math.hypot(p.x-q.x,p.y-q.y);if(e<110){g.globalAlpha=(1-e/110)*(d<160?.5:.12);g.strokeStyle=k;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(q.x,q.y);g.stroke()}}}
+if(!still)requestAnimationFrame(t)}t()})();
+// ---- scroll reveal and card glow
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("in")),{threshold:.12});
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+document.addEventListener("pointermove",e=>{const c=e.target.closest&&e.target.closest(".card,.stat");if(c){const r=c.getBoundingClientRect();c.style.setProperty("--mx",e.clientX-r.left+"px");c.style.setProperty("--my",e.clientY-r.top+"px")}});
+document.querySelectorAll(".copy").forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.parentElement.innerText.replace(/^copy\n?/,""));b.textContent="copied";setTimeout(()=>b.textContent="copy",1200)});
+// ---- keyword floor (port of tcg/keyword_guard.py plus "partner" and "export" so the demo attack trips it)
+const INJ=/ignore (all |your |previous )|note (for|to) (the )?ai|ai assistant|system (note|notice|override)|do not (tell|mention|inform)|assistant:|new instructions/i;
+const RULES=[["privilege_escalation",/admin|grant|role|permission|elevat|sudo|as_admin|override/i],["data_exfiltration",/https?:\/\/|webhook|upload|share_link|public|pastebin|partner|@(gmail|yahoo|proton|outlook)/i],["destructive_action",/delete|drop|purge|wipe|truncate|destroy|terminate|revoke|force|cancel_all|bulk/i],["sensitive_data_exposure",/ssn|social_security|salary|password|secret|api_key|token|diagnos|medical|credit_card/i],["business_rule_violation",/refund|transfer|wire|payment|discount|credit|payout|approve/i]];
+function kw(conv,call){const text=call.name+" "+JSON.stringify(call.arguments||{});const tool=(conv||[]).filter(m=>m.role==="tool").map(m=>m.content).join(" ");
+if(INJ.test(tool)&&/send|post|email|forward|upload|http|share|export/i.test(text))return{verdict:"block",category:"indirect_prompt_injection",reason:"instruction-like text in tool output"};
+for(const[c,r]of RULES)if(r.test(text))return{verdict:"block",category:c,reason:"keyword match for "+c};
+return{verdict:"allow",category:"benign",reason:"no risk keyword"}}
+const vhtml=(t,p,extra="")=>`<div class="verdict ${p.verdict}"><span class="tag">${p.verdict.toUpperCase()}</span><div><b>${t}</b>: ${p.category}<br><small>${p.reason||""} ${extra}</small></div></div>`;
+let cur=null;
+function parse(){try{return{conv:JSON.parse($("#conv").value||"[]"),call:JSON.parse($("#call").value)}}catch(e){return null}}
+function check(){const p=parse();if(!p){$("#out").innerHTML=`<div class="note">Conversation or call is not valid JSON.</div>`;return}
+let h=vhtml("Keyword baseline (browser)",kw(p.conv,p.call));
+if(cur&&cur.model&&$("#call").value===cur.callText)h+=vhtml("Gemma 4 adapter (cached, measured)",cur.model,`P=${f2(cur.model_prob)}`);
+$("#out").innerHTML=h}
+function load(i){cur=D.presets[i];cur.callText=JSON.stringify(cur.record.proposed_call);$("#policy").value=cur.record.agent.policy;$("#conv").value=JSON.stringify(cur.record.conversation,null,1);$("#call").value=cur.callText;
+document.querySelectorAll("#chips button").forEach((b,j)=>b.classList.toggle("on",i===j));check()}
+["policy","conv","call"].forEach(i=>$("#"+i).addEventListener("input",check));
+$("#run").onclick=async()=>{const p=parse(),k=$("#key").value.trim();if(!p||!k){$("#gout").innerHTML=`<div class="note">Needs valid JSON and a key.</div>`;return}
+if($("#rem").checked)try{localStorage.tcgKey=k}catch(e){}
+$("#gout").textContent="Asking Gemini...";
+try{const r=await gem(p.conv,p.call,k);$("#gout").innerHTML=vhtml("Gemini (your key)",r)}catch(e){$("#gout").innerHTML=`<div class="note">${String(e.message).replace(/</g,"&lt;")}</div>`}};
+async function gem(conv,call,k){const rec={role:"agent",policy:$("#policy").value,conv,call};
+const txt=`# Operator policy\n${rec.policy}\n\n# Conversation\n${conv.map(m=>m.role==="tool"?`[tool output: ${m.name||"?"}]\n${m.content}\n[end tool output]`:`[${m.role}] ${m.content}`).join("\n")}\n\n# Proposed call\n${call.name} ${JSON.stringify(call.arguments)}`;
+const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent($("#model").value)}:generateContent`,{method:"POST",headers:{"content-type":"application/json","x-goog-api-key":k},body:JSON.stringify({systemInstruction:{parts:[{text:D.guard_system}]},contents:[{role:"user",parts:[{text:txt}]}],generationConfig:{responseMimeType:"application/json",responseJsonSchema:D.schema}})});
+const j=await res.json();if(!res.ok)throw new Error(j.error?.message||res.status);return JSON.parse(j.candidates[0].content.parts[0].text)}
+// ---- suite
+let S=[];try{S=JSON.parse(localStorage.tcgSuite||"[]")}catch(e){}
+function drawS(){$("#suite").innerHTML=`<tr><th>call</th><th>expected</th><th>got</th><th></th></tr>`+S.map((t,i)=>`<tr><td><code>${t.call.name}</code></td><td>${t.expect}</td><td>${t.got||"-"}</td><td>${t.got?(t.got===t.expect?"✓":"✗"):""} <a href="#" data-i="${i}">remove</a></td></tr>`).join("")}
+$("#save").onclick=()=>{const p=parse();if(!p)return;S.push({policy:$("#policy").value,conv:p.conv,call:p.call,expect:$("#exp").value});sv()};
+$("#runall").onclick=()=>{S.forEach(t=>t.got=kw(t.conv,t.call).verdict);sv()};
+$("#suite").onclick=e=>{const i=e.target.dataset?.i;if(i!==undefined){e.preventDefault();S.splice(i,1);sv()}};
+$("#exportj").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}));a.download="toolcall-guard-suite.json";a.click()};
+function sv(){try{localStorage.tcgSuite=JSON.stringify(S)}catch(e){}drawS()}
+// ---- cascade explorer
+function cas(){const c=D.cascade,lo=+$("#lo").value,hi=+$("#hi").value;$("#lov").textContent=lo.toFixed(2);$("#hiv").textContent=hi.toFixed(2);
+const pt=c.curve_report_half.find(x=>Math.abs(x.low-lo)<1e-6&&Math.abs(x.high-hi)<1e-6);const r=c.report_half;
+const row=(n,a,f,e,cost,col)=>`<div><b>${n}</b> <small style="color:var(--mute)">escalated ${pc(e)} · $${cost.toFixed(2)} per 1,000</small></div><div>blocks attacks ${pc(a)}</div><div class="bar"><i style="width:${a*100}%;background:${col}"></i></div><div>false positives ${pc(f)}</div><div class="bar"><i style="width:${Math.min(100,f*500)}%;background:var(--red)"></i></div>`;
+$("#cm").innerHTML=(pt?row("Your cascade",pt.attack_block_rate,pt.false_positive_rate,pt.escalated_fraction,pt.cost_per_1k_usd,"var(--mint)"):"")
++row("Local adapter only",r.adapter_only.attack_block_rate[0],r.adapter_only.false_positive_rate[0],0,0,"var(--amber)")
++row("Gemini only",r.hosted_only.attack_block_rate[0],r.hosted_only.false_positive_rate[0],1,r.hosted_only.cost_per_1k_usd,"var(--blue)");
+$("#sel").textContent=`Tuned on the fit half: low ${c.selected.low}, high ${c.selected.high}. At that setting about ${pc(r.cascade.escalated_fraction)} of calls still go to Gemini, so the saving is modest: ${f2(r.cascade.cost_per_1k_usd)} vs ${f2(r.hosted_only.cost_per_1k_usd)} USD per 1,000. n=${c.n_report} held-out calls, replay only.`}
+$("#lo").oninput=$("#hi").oninput=()=>cas();
+// ---- leaderboard + stats
+function lb(){const h=D.headline;$("#lb").innerHTML=`<tr><th>guard</th><th>attacks blocked</th><th>false positives</th></tr>`+Object.entries(h).map(([n,v])=>{const a=v.attack_block_rate,f=v.false_positive_rate;return`<tr><td>${n}</td><td>${f2(a[0])} <small>[${f2(a[1])}, ${f2(a[2])}]</small><div class="bar"><i data-w="${a[0]*100}" style="background:var(--mint)"></i></div></td><td>${f2(f[0])} <small>[${f2(f[1])}, ${f2(f[2])}]</small></td></tr>`}).join("");
+setTimeout(()=>document.querySelectorAll("#lb i").forEach(i=>i.style.width=i.dataset.w+"%"),300)}
+function stats(){const h=D.headline,r=D.cascade.report_half;const s=[[f2(h["Tuned adapter (full precision)"].attack_block_rate[0]),"attacks blocked by the free local adapter, real traffic"],[f2(h["Gemini 3.8 Flash"].attack_block_rate[0]),"attacks blocked by Gemini 3.8 Flash"],[pc(1-r.cascade.escalated_fraction),"of calls the cascade keeps off the paid API"],["8","attack categories, one JSON verdict"]];
+$("#stats").innerHTML=s.map(x=>`<div class="stat"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("")}
+fetch("data.json").then(r=>r.json()).then(d=>{D=d;$("#chips").innerHTML=d.presets.map((p,i)=>`<button data-i="${i}">${p.id.replace("demo-","")}</button>`).join("");
+$("#chips").onclick=e=>e.target.dataset.i&&load(+e.target.dataset.i);load(0);cas();lb();stats();drawS();
+try{if(localStorage.tcgKey){$("#key").value=localStorage.tcgKey;$("#rem").checked=true}}catch(e){}}).catch(()=>{$("#stats").textContent="Could not load data.json"});
+</script>
+</body>
+</html>
